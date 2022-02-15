@@ -6,7 +6,12 @@ const cors = require("cors")
 const app = express();
 dotenv.config();
 
-app.use(cors())
+app.use(cors());
+
+mongoose.connect(process.env.MONGODB_URL).then(() => console.log("DB Connection successful")
+).catch((err) => {
+    console.log(err);
+});
 
 //Middleware
 app.use(express.json());
