@@ -83,12 +83,12 @@ const StudentSchema = new mongoose.Schema(
     },
 
     subject: {
-      type: String,
+      type: [String],
       required: true,
     },
 
     teacher: {
-      type: String,
+      type: [String],
       required: true,
     },
 
@@ -104,7 +104,6 @@ const StudentSchema = new mongoose.Schema(
 
     isStudent: {
       type: Boolean,
-      required: true,
       default: true,
     },
   },
