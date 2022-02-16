@@ -24,7 +24,7 @@ const StudentSchema = new mongoose.Schema(
 
     phoneNumber: {
       type: String,
-      required: true, // type String is OK?
+      required: true,
     },
 
     email: {
@@ -54,12 +54,12 @@ const StudentSchema = new mongoose.Schema(
 
     parentPhoneNumber: {
       type: String,
-      required: true, // type String is OK?
+      required: true,
     },
 
     parentEmail: {
       type: String,
-      required: true, // is this required
+      required: false,
     },
 
     studentGender: {
