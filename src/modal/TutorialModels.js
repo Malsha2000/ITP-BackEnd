@@ -3,11 +3,6 @@ const mongoose = requires("mongoose");
 
 const TutorialSchema = new mongoose.Schema({
 
-    id:{
-        type:String,
-        required: true,
-    },
-
     tutorialName:{
         type: String,
         required: true,
