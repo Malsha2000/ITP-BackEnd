@@ -35,4 +35,4 @@ const HallSchema = new.mongoose.Schema({
 
 );
 
-module.exports = mongoose.model("Event",EventSchema);
+module.exports = mongoose.model("Hall",HallSchema);
