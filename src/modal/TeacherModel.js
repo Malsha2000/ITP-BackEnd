@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const { stringify } = require('nodemon/lib/utils');
+const jwt = require('jsonwebtoken');
+const joi = require('joi');
 
 const TeacherSchema =  new mongoose.Schema(
   {
@@ -15,6 +16,16 @@ const TeacherSchema =  new mongoose.Schema(
           required: true,
         },
 
+        password: {
+          type: String,
+          required: true,
+        },
+
+        confirmPassword: {
+          type: String,
+          required: true,
+        },
+
         birthday: {
           type: Date,
           required: true,
@@ -22,17 +33,17 @@ const TeacherSchema =  new mongoose.Schema(
 
         NIC: {
           type: String,
-          required: false,
+          required: true,
         },
         
         address:{
           type: String,
-          required: false,
+          required: true,
 
         },
 
         phoneNumber: {
-          type: String,
+          type: [String],
           required: true,
 
         },
@@ -76,60 +87,75 @@ const TeacherSchema =  new mongoose.Schema(
         OL_result:{
             year: {
               type: String,
+              required : false,
             },
 
             Sinhala: {
               type: String,
+              required : false,
             },
 
             Mathamatics: {
               type:String,
+              required : false,
             },
 
             Science: {
               type:String,
+              required : false,
             },
 
             English: {
               type:String,
+              required : false,
             },
 
             History: {
               type:String,
+              required : false,
             },
 
             Religion: {
               type:String,
+              required : false,
             },
 
             Subject1: {
               type:String,
+              required : false,
             },
 
             Subject2: {
               type:String,
+              required : false,
             },
 
             Subject3: {
               type:String,
-            },  
+              required : false,
+            }, 
+        
           },
 
         AL_result:{
           year: {
               type: String,
+              required : false,
             },
 
             Subject1: {
               type: String,
+              required : false,
             },
 
             Subject2: {
               type:String,
+              required : false,
             },
 
             Subject3: {
               type:String,
+              required : false,
             },
 
 
@@ -157,11 +183,43 @@ const TeacherSchema =  new mongoose.Schema(
           type: Boolean,
           required: true,
 
-        }
+        },
 
 
   },
-  { timestamps: true }
-
+  { timestamps: true },
 );
-module.exports = mongoose.model("Teacher", TeacherSchema);
+
+//genarate jwt
+TeacherSchema.methods.genarateAuthToken = () => {
+  const token = jwt.sign({_id: this._id}, process.env.JWTPRIVATEKEY, { expiresIn: "7d"});
+  return token;
+}
+const Teacher = mongoose.model("Teacher", TeacherSchema);
+//validation
+
+const validate =(data) => {
+  const Schema = joi.object({
+        firstName : joi.string().required().label("First Name"),
+        lastName : joi.string().required().label("Last Name"),
+        password : joi.string() .required().label("Password"),
+        confirmPassword : joi.string(). required().label("Comfirm Password"),
+        birthday : joi.string().required().label("Birth day"),
+        NIC : joi.string().required().label("NIC"),
+        address : joi.string().required().label("Address"),
+        phoneNumber : joi.array().items(joi.string().required.label("Phone Number")),
+        email : joi.string().required().label("Email"),
+        teacherGender : joi.string().required().label("Gender"),
+        higerQulification : joi.string().required().label("Qulification"),
+        subject : joi.string(). required().label("Subject"),
+        meadium : joi.string().required().label("Meadium"),
+        experienceYear : joi.string().required().label("Experience Year"),
+        classType : joi.string().required().label("Class type"),
+        ImageURL : joi.string().required().label("Image"),
+        feeExpectation : joi.string().required().label("Fee expectation"),
+        isTeacher : joi.boolean().required().label("IsTeacher"),
+  });
+  return schema.validate(data);
+
+}
+  module.exports = {Teacher, validate};
