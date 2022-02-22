@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const cors = require("cors")
+const cors = require("cors");
+const teacherRoutes = require("./src/routes/Teacher");
 
 const app = express();
 dotenv.config();
@@ -20,6 +21,9 @@ app.get("/", (req,res) =>{
     res.send("success");
     console.log(process.env.PORT);
 });
+
+app.use("/teacher",teacherRoutes);
+
 
 app.listen(5000, () =>
     console.log(`Server is up and running on PORT 5000`)
