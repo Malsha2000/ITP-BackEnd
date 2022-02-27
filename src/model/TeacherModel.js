@@ -9,14 +9,8 @@ const TeacherSchema =  new mongoose.Schema(
           required: true,
         },    
 
-
         lastName: {
           type: String,
-          required: true,
-        },
-
-        birthday: {
-          type: Date,
           required: true,
         },
 
@@ -24,17 +18,26 @@ const TeacherSchema =  new mongoose.Schema(
           type: String,
           required: false,
         },
+
+        IDNumber: {
+          type: String,
+          required: true,
+          unique: true,
+        },
+
+        password: {
+          type: String,
+          required: true,
+        },
         
         address:{
           type: String,
           required: false,
-
         },
 
         phoneNumber: {
           type: String,
           required: true,
-
         },
 
         email: {
@@ -42,35 +45,24 @@ const TeacherSchema =  new mongoose.Schema(
           required: true,
         },
 
-        teacherGender: {
-          type: String,
-          required: true,
-        },
-
         higerQulification:{
           type: String,
           required: true,
-
         },
 
         subject: {
             type: String,
             required: true,
-
         },
 
-        meadium:{
+        medium:{
             type: String,
             required: true,
-
-
         },
 
         experienceYear:{
             type: String,
             required: true,
-
-
         },
 
         OL_result:{
@@ -131,35 +123,27 @@ const TeacherSchema =  new mongoose.Schema(
             Subject3: {
               type:String,
             },
-
-
           },
 
         classType:{
-          type: [String],
+          type: String,
           required: true,
-
         },
 
-        ImageURL:{
+        imageUrl:{
           type: String,
           required: true,  
-
         },
     
         feeExpectation:{
           type: String,
-          required: true,    
-
+          required: false,    
         },
 
         isTeacher:{
           type: Boolean,
-          required: true,
-
+          default:true
         }
-
-
   },
   { timestamps: true }
 
