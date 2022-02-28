@@ -19,7 +19,7 @@ const TeacherSchema =  new mongoose.Schema(
           required: false,
         },
 
-        IDNumber: {
+        username: {
           type: String,
           required: true,
           unique: true,
