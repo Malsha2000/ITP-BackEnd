@@ -5,7 +5,7 @@ const registerValidation = (data) => {
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         NIC: Joi.string().required(),
-        IDNumber: Joi.string().required(),
+        username: Joi.string().required(),
         password: Joi.string().required(),
         address: Joi.string().required(),
         phoneNumber: Joi.string().required(),
