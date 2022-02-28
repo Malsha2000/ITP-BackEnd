@@ -24,7 +24,7 @@ const addTeacher = async (req,res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         NIC: req.body.NIC,
-        IDNumber: req.body.IDNumber,
+        username: req.body.username,
         password: hashPassword,
         address: req.body.address,
         phoneNumber: req.body.phoneNumber,
