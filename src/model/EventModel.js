@@ -1,4 +1,5 @@
 
+const { date } = require("joi");
 const mongoose = require("mongoose");
 
 
@@ -9,8 +10,8 @@ const EventSchema = new mongoose.Schema({
         required: true,
     },
 
-    eventdate: {
-        type: date,
+    eventDate: {
+        type: String,
         required: true,
     },
 
