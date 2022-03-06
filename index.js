@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const teachersRoute = require("./src/routes/teacher");
+const adminRoute = require("./src/routes/admin");
 
 const app = express();
 dotenv.config();
@@ -24,7 +25,7 @@ app.get("/", (req,res) =>{
 });
 
 app.use("/api/teacher", teachersRoute);
-
+app.use("/api/admin", adminRoute);
 
 app.listen(process.env.PORT, () =>
     console.log(`Server is up and running on PORT ${process.env.PORT}`)
