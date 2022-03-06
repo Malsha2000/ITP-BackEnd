@@ -5,6 +5,7 @@ const cors = require("cors");
 const teachersRoute = require("./src/routes/teacher");
 const studentRoute = require("./src/routes/student");
 const eventRoute = require("./src/routes/event");
+const adminRoute = require("./src/routes/admin");
 
 const app = express();
 dotenv.config();
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 app.use("/api/teacher", teachersRoute);
 app.use("/api/student", studentRoute);
 app.use("/api/event", eventRoute);
+app.use("/api/admin", adminRoute);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server is up and running on PORT ${process.env.PORT}`)
