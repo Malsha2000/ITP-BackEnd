@@ -19,6 +19,17 @@ const SystemAdminSchema = new mongoose.Schema(
         required: true,
     },
 
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+
+    password: {
+        type: String,
+        required: true,
+    },
+
     phoneNumber: {
         type: String,
         required: true,
@@ -29,7 +40,7 @@ const SystemAdminSchema = new mongoose.Schema(
         required: true,
     },
 
-    Address: {
+    address: {
         type: String,
         required: true,
     },

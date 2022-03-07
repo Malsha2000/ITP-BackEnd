@@ -6,6 +6,9 @@ const teachersRoute = require("./src/routes/teacher");
 const studentRoute = require("./src/routes/student");
 const timetableRoute = require("./src/routes/timetable");
 const inventoryRoute = require("./src/routes/inventory");
+const eventRoute = require("./src/routes/event");
+const adminRoute = require("./src/routes/admin");
+const examRoute = require("./src/routes/exam");
 
 const app = express();
 dotenv.config();
@@ -34,6 +37,9 @@ app.use("/api/teacher", teachersRoute);
 app.use("/api/student", studentRoute);
 app.use("/api/timetable", timetableRoute);
 app.use("/api/inventory", inventoryRoute);
+app.use("/api/event", eventRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/exam", examRoute);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server is up and running on PORT ${process.env.PORT}`)
