@@ -1,12 +1,12 @@
 const bcryptjs = require("bcryptjs");
 const Timetable = require("../model/TimetableModels");
-const { registerValidation } = require("../validations/TimetableValidation");
+const { timetableValidation } = require("../validations/TimetableValidation");
 
 //user ragistration function
 const addTimetable = async (req,res) => {
     
     //validate the user input fields
-    const {error} = registerValidation(req.body);
+    const {error} = timetableValidation(req.body);
     if(error) {
         res.send({message:error['details'][0]['message']});
     }

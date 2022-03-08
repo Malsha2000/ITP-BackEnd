@@ -1,12 +1,12 @@
 const bcryptjs = require("bcryptjs");
 const Inventory = require("../model/InventoryModel");
-const { registerValidation } = require("../validations/inventoryValidation");
+const { inventoryValidation } = require("../validations/inventoryValidation");
 
 //user ragistration function
 const addInventory = async (req,res) => {
     
     //validate the user input fields
-    const {error} = registerValidation(req.body);
+    const {error} = inventoryValidation(req.body);
     if(error) {
         res.send({message:error['details'][0]['message']});
     }

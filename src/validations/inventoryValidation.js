@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 //registration validation
-const registerValidation = (data) => {
+const inventoryValidation = (data) => {
 
     const SchemaValidation = Joi.object({
 
@@ -17,4 +17,4 @@ const registerValidation = (data) => {
 }
 
 
-module.exports.registerValidation = registerValidation; //export functions
+module.exports.inventoryValidation = inventoryValidation; //export functions
