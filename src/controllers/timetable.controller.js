@@ -1,4 +1,3 @@
-const bcryptjs = require("bcryptjs");
 const Timetable = require("../model/TimetableModels");
 const { timetableValidation } = require("../validations/TimetableValidation");
 

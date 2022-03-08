@@ -1,4 +1,3 @@
-const bcryptjs = require("bcryptjs");
 const Inventory = require("../model/InventoryModel");
 const { inventoryValidation } = require("../validations/inventoryValidation");
 
