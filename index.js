@@ -37,7 +37,7 @@ app.use("/api/student", studentRoute);
 app.use("/api/event", eventRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/exam", examRoute);
-app.use("api/result", resultRoute);
+app.use("/api/result", resultRoute);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server is up and running on PORT ${process.env.PORT}`)
