@@ -1,11 +1,11 @@
 const bcryptjs = require("bcryptjs");
 const Event = require("../model/EventModel");
-const { registerValidation } = require("../validations/eventValidation");
+const { eventValidation } = require("../validations/eventValidation");
 
 //user ragistration function
 const addEvent = async (req, res) => {
   //validate the user input fields
-  const { error } = registerValidation(req.body);
+  const { error } = eventValidation(req.body);
   if (error) {
     res.send({ message: error["details"][0]["message"] });
   }
@@ -38,15 +38,14 @@ const addEvent = async (req, res) => {
   }
 };
 
-  const getEvent = async (req, res) => {
-    try {
-      const event = await Event.find();
-      res.send(event);
-    } catch (error) {
-      res.status(400).send({ message: error });
-    }
-  };
-
+const getEvent = async (req, res) => {
+  try {
+    const event = await Event.find();
+    res.send(event);
+  } catch (error) {
+    res.status(400).send({ message: error });
+  }
+};
 
 module.exports = {
   addEvent,
