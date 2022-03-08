@@ -1,10 +1,9 @@
 const router = require("express").Router();
-const { addEvent } = require("../controllers/event.controller");
+const { addEvent, getEvent } = require("../controllers/event.controller");
 const Event = require("../model/EventModel");
-const registerValidation = require("../validations/eventValidation");
-
 
 //define user routes
-router.post("/register", addEvent);
+router.post("/add", addEvent);
+router.get("/all", getEvent);
 
-module.exports = router
+module.exports = router;
