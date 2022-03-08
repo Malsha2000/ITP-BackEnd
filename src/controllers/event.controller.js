@@ -1,4 +1,3 @@
-const bcryptjs = require("bcryptjs");
 const Event = require("../model/EventModel");
 const { eventValidation } = require("../validations/eventValidation");
 
