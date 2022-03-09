@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
  
 
-const HallSchema = new.mongoose.Schema({
+const HallSchema = new mongoose.Schema({
 
     hallnumber:{
 
-        type : string,
+        type : String,
         required : true,
     },
 
