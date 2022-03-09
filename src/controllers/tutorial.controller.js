@@ -38,4 +38,13 @@ const addTutorial = async (req,res) => {
     }
 }
 
-module.exports = {addTutorial}; //export functions
+const getTutorial = async (req, res) => {
+    try {
+        const tutorial = await Tutorial.find();
+        res.send(tutorial);
+    } catch (error) {
+        res.status(400).send({ message: error });
+    }
+};
+
+module.exports = {addTutorial, getTutorial}; //export functions
