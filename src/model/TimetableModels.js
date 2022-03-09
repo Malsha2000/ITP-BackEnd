@@ -1,25 +1,29 @@
-
 const mongoose = require("mongoose");
 
 
-const EventSchema = new mongoose.Schema({
+const TimetableSchema = new mongoose.Schema({
 
-    eventName: {
+    subject: {
         type: String,
         required: true,
     },
 
-    eventdate: {
-        type: date,
-        required: true,
-    },
-
-    tags: {
+    grade: {
         type: String,
         required: true,
     },
 
-    description: {
+    teacherName: {
+        type: String,
+        required: true,
+    },
+
+    hallNumber: {
+        type: String,
+        required: true,
+    },
+
+    date: {
         type: String,
         required: true,
     },
@@ -29,24 +33,22 @@ const EventSchema = new mongoose.Schema({
         required: true,
     },
 
-    Venue: {
+    classType: {
         type: String,
         required: true,
     },
 
-
-    imageUrl: {
+    medium: {
         type: String,
         required: true,
     },
 
-    registrationLink: {
-        type: String,
+    floorNumber: {
+        type: Number,
         required: true,
     },
-
 },
 {timestamps: true}
 );
 
-module.exports = mongoose.model("Event", EventSchema);
+module.exports = mongoose.model("Timetable", TimetableSchema);
