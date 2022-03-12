@@ -1,6 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const Admin = require("../model/SystemAdminModel");
-const { registerValidation } = require("../validations/adminValidation");
+const { registerValidation} = require("../validations/adminValidation");
 
 const addAdmin = async (req,res) => {
 
@@ -38,10 +38,10 @@ const addAdmin = async (req,res) => {
     catch(error) {
         res.status(400).send({message:error});
     }
-}
-
-const getAdmins = async (req,res) => {
-    try{
+};
+    
+    const getAdmins = async (req,res) => {
+        try{
         const admins = await Admin.find();
         res.send(admins);
     }
