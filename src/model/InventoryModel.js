@@ -7,7 +7,7 @@ const InventorySchema = new mongoose.Schema({
         },
 
         boughtDate: {
-            type: Date,
+            type: String,
             required: true,
         },
 
