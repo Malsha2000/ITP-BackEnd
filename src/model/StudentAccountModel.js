@@ -102,6 +102,16 @@ const StudentSchema = new mongoose.Schema(
       required: false,
     },
 
+    username: {
+      type: String,
+      required: true,
+    },
+
+    password: {
+      type: String,
+      required: true,
+    },
+
     isStudent: {
       type: Boolean,
       default: true,
