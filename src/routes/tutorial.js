@@ -1,9 +1,10 @@
 const router = require("express").Router();
-const { addTutorial } = require("../controllers/tutorial.controller");
-const Tutorial =require("../model/TutorialModels");
-const tutorialValidation = require("../validations/tutorialValidation");
+const { addTutorial, getTutorial} = require("../controllers/tutorial.controller");
+
+
 
 //define user routes
 router.post("/add", addTutorial);
+router.get("/all", getTutorial);
 
 module.exports = router
