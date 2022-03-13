@@ -38,9 +38,10 @@ const addAdmin = async (req,res) => {
     catch(error) {
         res.status(400).send({message:error});
     }
-};
+    };
     
-    const getAdmins = async (req,res) => {
+//Get all admins function
+const getAdmins = async (req,res) => {
         try{
         const admins = await Admin.find();
         res.send(admins);
@@ -48,9 +49,46 @@ const addAdmin = async (req,res) => {
     catch(error){
         res.status(400).send({message: error});
     }
-}
+    }
 
-module.exports = {
-    addAdmin,
-    getAdmins,
-}
+//Update admin details
+const updateAdmin = async (req,res) => {
+
+    const adminId = req.params.id;
+
+    try {
+        const admin = await Admin.findById(adminId);
+        if(!admin) {
+            res.status(404).json("No User Found");
+        }
+
+        const {firstName, lastName, NIC, username, password, phoneNumber, email, address} = req.body;
+        const updatedAdmin = await Admin.findByIdAndUpdate(adminId, {firstName, lastName, NIC, username, password, phoneNumber, email, address});
+
+        res.status(200).json(updatedAdmin);
+    }
+    catch(err) {
+        res.status(400).send({message: err});
+    }
+    };
+
+//Delete admin account
+const deleteAdmin = async (req,res) => {
+    const adminId = req.params.id;
+
+    try {
+        const admin = await Admin.findById(adminId);
+
+        if(!admin) {
+            res.status(404).json("User Not Found");
+        }
+
+        const deletedAdmin = await Admin.findByIdAndDelete(adminId);
+        res.status(200).json("Admin account Deleted");
+    }
+    catch(err) {
+        res.status(400).json(err.message);
+    }
+    };
+
+module.exports = {addAdmin, getAdmins, updateAdmin, deleteAdmin};
