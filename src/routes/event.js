@@ -5,6 +5,7 @@ const {
     updateEvent,
     deleteEvent,
 } = require("../controllers/event.controller");
+const { addEvent, getEvent } = require("../controllers/event.controller");
 const Event = require("../model/EventModel");
 
 //define user routes
