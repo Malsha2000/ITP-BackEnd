@@ -12,7 +12,7 @@ const adminRoute = require("./src/routes/admin");
 const examRoute = require("./src/routes/exam");
 const resultRoute = require("./src/routes/result");
 const tutorialRoute = require("./src/routes/tutorial");
-
+const HallRoute = require("./src/routes/Hall")
 
 const app = express();
 dotenv.config();
@@ -46,6 +46,7 @@ app.use("/api/admin", adminRoute);
 app.use("/api/exam", examRoute);
 app.use("/api/result", resultRoute);
 app.use("/api/tutorial",tutorialRoute);
+app.use("/api/hall", HallRoute);
 
 app.listen(process.env.PORT, () =>
     console.log(`Server is up and running on PORT ${process.env.PORT}`)

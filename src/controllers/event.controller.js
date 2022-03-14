@@ -99,9 +99,11 @@ const deleteEvent = async (req, res) => {
   }
 };
 
+
 module.exports = {
   addEvent,
   getEvent,
   updateEvent,
   deleteEvent,
-};
+}; //export functions
+ 
