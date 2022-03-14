@@ -46,48 +46,6 @@ const getEvent = async (req, res) => {
   }
 };
 
-module.exports = {
-  addEvent,
-  getEvent,
-=======
-
-  //to check user already exist
-  const eventExist = await Event.findOne({ eventName: req.body.eventName });
-  if (eventExist) {
-    return res.status(400).send({ message: "Event already exist" });
-  }
-
-  //assign data to the model
-  const event = new Event({
-    eventName: req.body.eventName,
-    eventDate: req.body.eventDate,
-    tags: req.body.tags,
-    description: req.body.description,
-    time: req.body.time,
-    Venue: req.body.Venue,
-    imageUrl: req.body.imageUrl,
-    registrationLink: req.body.registrationLink,
-  });
-
-  try {
-    //save the data in the database
-    const savedEvent = await event.save();
-    res.send(savedEvent);
-  } catch (error) {
-    //error handling
-    res.status(400).send({ message: error });
-  }
-};
-
-const getEvent = async (req, res) => {
-  try {
-    const event = await Event.find();
-    res.send(event);
-  } catch (error) {
-    res.status(400).send({ message: error });
-  }
-};
-
 const updateEvent = async (req, res) => {
   const eventId = req.params.id;
 
@@ -140,9 +98,12 @@ const deleteEvent = async (req, res) => {
     res.status(400).json(err.message);
   }
 };
+
+
 module.exports = {
   addEvent,
   getEvent,
   updateEvent,
   deleteEvent,
 }; //export functions
+ 

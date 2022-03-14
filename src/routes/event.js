@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { addEvent, getEvent } = require("../controllers/event.controller");
 const {
     addEvent,
     getEvent,
