@@ -46,7 +46,64 @@ const getEvent = async (req, res) => {
   }
 };
 
+const updateEvent = async (req, res) => {
+  const eventId = req.params.id;
+
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      res.status(404).json("No Event Found");
+    }
+
+    const {
+      eventName,
+      eventDate,
+      tags,
+      description,
+      time,
+      Venue,
+      imageUrl,
+      registrationLink,
+    } = req.body;
+    const updatedEvent = await Event.findByIdAndUpdate(eventId, {
+      eventName,
+      eventDate,
+      tags,
+      description,
+      time,
+      Venue,
+      imageUrl,
+      registrationLink,
+    });
+
+    res.status(200).json(updatedEvent);
+  } catch (err) {
+    res.status(400).send({ message: err });
+  }
+};
+
+const deleteEvent = async (req, res) => {
+  const eventId = req.params.id;
+
+  try {
+    const event = await Event.findById(eventId);
+
+    if (!event) {
+      res.status(404).json("Event Not Found");
+    }
+
+    const deletedEvent = await Event.findByIdAndDelete(eventId);
+    res.status(200).json(deletedEvent);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
+
+
 module.exports = {
   addEvent,
   getEvent,
+  updateEvent,
+  deleteEvent,
 }; //export functions
+ 
