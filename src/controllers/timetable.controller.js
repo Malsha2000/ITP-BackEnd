@@ -1,16 +1,16 @@
 const Timetable = require("../model/TimetableModels");
 const { timetableValidation } = require("../validations/TimetableValidation");
 
-//user ragistration function
+//add timetable function
 const addTimetable = async (req,res) => {
     
-    //validate the user input fields
+    //validate the timetable input fields
     const {error} = timetableValidation(req.body);
     if(error) {
         res.send({message:error['details'][0]['message']});
     }
 
-    //to check user already exist
+    //to check timetable already exist
     const timetableExist = await Timetable.findOne({subject: req.body.subject});
     if(timetableExist) {
         return res.status(400).send({message: "Subject already exist"});
@@ -49,7 +49,51 @@ const getTimetable = async (req, res) => {
     }
   };
 
+  const updateTimetable = async (req,res) => {
+
+    const timetableId = req.params.id;
+
+    try {
+        const timetable = await Timetable.findById(timetableId);
+        if(!timetable) {
+            res.status(404).json("No Timetable Found");
+        }
+
+        const {subject, grade
+            , teacherName
+            ,hallNumber, date, time, classType, medium, floorNumber} = req.body;
+        const updatedTimetable = await Timetable.findByIdAndUpdate(timetableId, {subject, grade
+            , teacherName
+            ,hallNumber, date, time, classType, medium, floorNumber});
+
+        res.status(200).json(updatedTimetable);
+    }
+    catch(err) {
+        res.status(400).send({message: err});
+    }
+};
+
+const deleteTimetable = async (req,res) => {
+    const timetableId = req.params.id;
+
+    try {
+        const timetable = await Timetable.findById(timetableId);
+
+        if(!timetable) {
+            res.status(404).json("Timetable Not Found");
+        }
+
+        const deletedTimetable = await Timetable.findByIdAndDelete(timetableId);
+        res.status(200).json("Timwtable Deleted");
+    }
+    catch(err) {
+        res.status(400).json(err.message);
+    }
+};
+
 module.exports = {
     addTimetable,
     getTimetable,
+    updateTimetable,
+    deleteTimetable,
 }; //export functions

@@ -100,10 +100,24 @@ const deleteEvent = async (req, res) => {
 };
 
 
+const getoneEvent = async (req, res) => {
+  try {
+    const event = await Event.findOne({ _id: req.params.id });
+
+    if (!event) {
+      res.status(404).json("Event Not Found");
+    }
+    res.status(200).json(event);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
+
 module.exports = {
   addEvent,
   getEvent,
   updateEvent,
   deleteEvent,
+  getoneEvent,
 }; //export functions
  
