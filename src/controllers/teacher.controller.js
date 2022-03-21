@@ -1,6 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const Teacher = require("../model/TeacherModel");
-const { registerValidation } = require("../validations/teacherValidation");
+const { registerValidation, loginValidation } = require("../validations/teacherValidation");
 
 const addTeacher = async (req, res) => {
   //validate the user input feilds
@@ -44,6 +44,33 @@ const addTeacher = async (req, res) => {
   }
 };
 
+//teacher login function
+const teacherLogin = async (req,res) => {
+  //validate the teacher input fields
+  const {error} = loginValidation(req.body);
+  if(error) {
+      res.send({message:error['details'][0]['message']});
+  }
+
+  //check if teacher exist
+  const teacherExist = await Teacher.findOne({username: req.body.username});
+  if(!teacherExist) {
+      return res.status(400).send({message: "Teacher does not exist"});
+  }
+  console.log(teacherExist);
+  //decrypt the password
+  const passwordValidation = await bcryptjs.compare(req.body.password, teacherExist.password);
+  if(!passwordValidation) {
+      return res.status(400).send({message: "Worng password"})
+  }
+  
+
+  //generate json web token
+  const token = jwt.sign({_id: Exist._id}, process.env.TOKEN_SECRET);
+  res.header("auth-token", token).send({'auth-token':token});
+
+}
+
 const getTeachers = async (req, res) => {
   try {
     const teachers = await Teacher.find();
@@ -53,7 +80,79 @@ const getTeachers = async (req, res) => {
   }
 };
 
+//Update teacher account
+const updateTeacher = async (req, res) => {
+  const teacherId = req.params.id;
+
+  try {
+    const teacher = await Teacher.findById(teacherId);
+    if (!teacher) {
+      res.status(404).json("No Teacher Found");
+    }
+
+    const {
+      firstName,
+      lastName,
+      NIC,
+      username,
+      password,
+      address,
+      phoneNumber,
+      email,
+      higerQulification,
+      subject,
+      medium,
+      experienceYear,
+      classType,
+      imageUrl,
+
+
+    } = req.body;
+    const updatedTeacher = await Teacher.findByIdAndUpdate(teacherId, {
+      firstName,
+      lastName,
+      NIC,
+      username,
+      password,
+      address,
+      phoneNumber,
+      email,
+      higerQulification,
+      subject,
+      medium,
+      experienceYear,
+      classType,
+      imageUrl,
+    });
+
+    res.status(200).json(updatedTeacher);
+  } catch (err) {
+    res.status(400).send({ message: err });
+  }
+};
+
+//delete
+const deleteTeacher = async (req, res) => {
+  const teacherId = req.params.id;
+
+  try {
+    const teacher = await Teacher.findById(teacherId);
+
+    if (!teacher) {
+      res.status(404).json("Event Not Found");
+    }
+
+    const deletedTeacher = await Teacher.findByIdAndDelete(teacherId);
+    res.status(200).json(deletedTeacher);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
+
 module.exports = {
   addTeacher,
   getTeachers,
+  //teacherLogin,
+  updateTeacher,
+  deleteTeacher,
 };

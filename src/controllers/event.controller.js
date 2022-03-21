@@ -99,6 +99,7 @@ const deleteEvent = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 const getoneEvent = async (req, res) => {
   try {
     const event = await Event.findOne({ _id: req.params.id });
@@ -111,6 +112,8 @@ const getoneEvent = async (req, res) => {
     res.status(400).json(err.message);
   }
 };
+=======
+>>>>>>> 10c2e2e27a07e1ab73bbd21e30fe9964ff7e54b7
 
 module.exports = {
   addEvent,
@@ -119,3 +122,4 @@ module.exports = {
   deleteEvent,
   getoneEvent,
 }; //export functions
+ 
