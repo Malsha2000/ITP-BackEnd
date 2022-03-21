@@ -85,9 +85,23 @@ const deleteInventory = async (req,res) => {
     }
 };
 
+const getoneInventory = async (req, res) => {
+    try {
+      const inventory = await Inventory.findOne({ _id: req.params.id });
+  
+      if (!inventory) {
+        res.status(404).json("Inventory Not Found");
+      }
+      res.status(200).json(inventory);
+    } catch (err) {
+      res.status(400).json(err.message);
+    }
+  };
+
 module.exports = {
     addInventory,
     getInventory,
     updateInventory,
     deleteInventory,
+    getoneInventory,
 }; //export functions
