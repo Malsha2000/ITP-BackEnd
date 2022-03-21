@@ -99,6 +99,7 @@ const deleteEvent = async (req, res) => {
   }
 };
 
+
 const getoneEvent = async (req, res) => {
   try {
     const event = await Event.findOne({ _id: req.params.id });
@@ -119,3 +120,4 @@ module.exports = {
   deleteEvent,
   getoneEvent,
 }; //export functions
+ 
