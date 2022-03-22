@@ -91,9 +91,24 @@ const deleteTimetable = async (req,res) => {
     }
 };
 
+const getoneTimetable = async (req, res) => {
+    try {
+      const timetable = await Timetable.findOne({ _id: req.params.id });
+  
+      if (!timetable) {
+        res.status(404).json("Timetable Not Found");
+      }
+      res.status(200).json(timetable);
+    } catch (err) {
+      res.status(400).json(err.message);
+    }
+  };
+  
+
 module.exports = {
     addTimetable,
     getTimetable,
     updateTimetable,
     deleteTimetable,
+    getoneTimetable,
 }; //export functions

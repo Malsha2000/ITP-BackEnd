@@ -2,7 +2,6 @@ const Joi = require("joi");
 
 const resultValidation = (data) => {
     const schemaValidation = Joi.object({
-        examId: Joi.string().required(),
         examName: Joi.string().required(),
         studentName: Joi.string().required(),
         studentId: Joi.string().required(),
