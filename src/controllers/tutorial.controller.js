@@ -1,5 +1,3 @@
-const req = require("express/lib/request");
-const res = require("express/lib/response");
 const Tutorial = require("../model/TutorialModels");
 const { tutorialValidation } = require("../validations/tutorialValidation");
 
