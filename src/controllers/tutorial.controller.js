@@ -1,3 +1,5 @@
+const req = require("express/lib/request");
+const res = require("express/lib/response");
 const Tutorial = require("../model/TutorialModels");
 const { tutorialValidation } = require("../validations/tutorialValidation");
 
@@ -47,4 +49,72 @@ const getTutorial = async (req, res) => {
     }
 };
 
-module.exports = {addTutorial, getTutorial}; //export functions
+const updateTutorial = async(req, res) => {
+    const tutorialId = req.params.id;
+
+    try {
+        const tutorial = await Tutorial.findById(tutorialId);
+        if(!tutorial){
+            res.status(404).json("No Tutorial Found");
+        }
+
+        const {
+            tutorialName,
+            subject,
+            grade,
+            teacherName,
+            lessonName,
+            link,
+        } = req.body;
+        const updateTutorial = await Tutorial.findByIdAndUpdate(tutorialId,{
+            tutorialName,
+            subject,
+            grade,
+            teacherName,
+            lessonName,
+            link,
+        });
+        res.status(200).json(updateTutorial);
+    } catch (err){
+        res.status(400).send({ message: err});
+    }
+};
+
+const deletedTutorial = async (req, res) => {
+    const tutorialId = req.params.id;
+
+    try {
+        const tutorial = await Tutorial.findById(tutorialId);
+
+        if(!tutorial) {
+            res.status(404).jason("Tutorial Not Found");
+        }
+
+        const deletedTutorial = await Tutorial.findByIdAndDelete(tutorialId);
+        res,staus(200).json(deletedTutorial);
+    } catch (err) {
+        res.status(400).json(err.message);
+    }
+};
+
+
+const getoneTutorial = async (req, res) => {
+    try {
+        const tutorial = await Tutorial.findOne({_id: req.params.id});
+
+        if (!tutorial) {
+            res.status(404).json("Tutorial Not Found");
+        }
+        res.status(200).json(tutorial);
+    } catch (err) {
+        res.status(400).json(err.tutorial);
+    }
+};
+
+module.exports = {
+    addTutorial,
+    getTutorial,
+    updateTutorial, 
+    deletedTutorial, 
+    getoneTutorial,
+}; //export functions
