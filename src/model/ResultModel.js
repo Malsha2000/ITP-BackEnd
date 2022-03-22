@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
 const ResultSchema = new mongoose.Schema({
-        examId: {
-            type: String,
-            required: true,
-            unique: true,
-        },
 
         examName: {
             type: String,

@@ -8,13 +8,12 @@ const addResult = async (req,res) => {
     }
 
   // to check redult already exist
-    const resultExist = await Result.findOne({ studentId: req.body.studentId });
+    const resultExist = await Result.findOne({ studentId: req.body.studentId, examName: req.body.examName });
     if (resultExist) {
     return res.status(400).send({ message: "Result Already Exist" });
     }
 
     const result = new Result({
-        examId: req.body.examId,
         examName: req.body.examName,
         studentName: req.body.studentName,
         studentId: req.body.studentId,
@@ -40,4 +39,76 @@ const getResults = async (req, res) => {
     }
 };
 
-module.exports = {addResult, getResults};
+const updateResult = async (req,res) => {
+    const resultId = req.params.id;
+
+    try {
+        const result = await Result.findById(resultId);
+        if(!result) {
+            res.status(404).json("No Result Found");
+        }
+
+        const {
+            examName,
+            studentName,
+            studentId,
+            marks,
+            subject,
+            grade,
+        } = req.body;
+
+        const updatedResult = await Result.findByIdAndUpdate(resultId, {
+            examName,
+            studentName,
+            studentId,
+            marks,
+            subject,
+            grade,
+        });
+
+        res.status(200).json(updatedResult);
+    }
+    catch (err) {
+        res.status(400).send({message: err});
+    }
+};
+
+const deleteResult = async (req,res) => {
+    const resultId = req.params.id;
+
+    try {
+        const result = await Result.findById(resultId);
+        if(!result) {
+            res.status(404).json("Result Not Found");
+        }
+
+        const deleletedResult = await Result.findByIdAndDelete(resultId);
+        res.status(200).json(deleletedResult);
+    }
+    catch(err) {
+        res.status(400).json(err.message);
+    }
+};
+
+const getOneResult = async (req,res) => {
+    const resultId = req.params.id;
+
+    try {
+        const result = await Result.findOne({_id: resultId});
+        if(!result) {
+            res.status(404).json("Result Not Found");
+        }
+        res.status(404).json(result);
+    }
+    catch (err) {
+        res.status(400).json(err.message);
+    }
+};
+
+module.exports = {
+    addResult, 
+    getResults,
+    updateResult,
+    deleteResult,
+    getOneResult,
+};
