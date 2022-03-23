@@ -21,6 +21,8 @@ const login = async (req,res,next) => {
     //if user is an admin
     if(adminExist) {
         localStorage.setItem("isAdmin", adminExist.isAdmin);
+        localStorage.setItem("isTeacher", false);
+        localStorage.setItem("isStudent", false);
         console.log("Admin");
         console.log(localStorage.getItem("isAdmin"));
 
@@ -38,6 +40,8 @@ const login = async (req,res,next) => {
     
     else if(teacherExist) { //if user teacher
         localStorage.setItem("isTeacher", teacherExist.isTeacher);
+        localStorage.setItem("isAdmin", false);
+        localStorage.setItem("isStudent", false);
         console.log("Teacher");
         console.log(localStorage.getItem("isTeacher"));
 
@@ -54,6 +58,8 @@ const login = async (req,res,next) => {
     }
     else if(studentExist) { //if user student
         localStorage.setItem("isStudent", studentExist.isStudent);
+        localStorage.setItem("isAdmin", false);
+        localStorage.setItem("isTeacher", false);
         console.log("Student");
         console.log(localStorage.getItem("isStudent"));
 
@@ -70,6 +76,24 @@ const login = async (req,res,next) => {
     else {
         return res.status(400).send({message: "User does not exist"});
     }
+};
+
+let refreashTokens = [];
+
+const logout = async (req,res) => {
+    const refreashToken = req.body.token;
+
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("isTeacher");
+    localStorage.removeItem("isStudent");
+
+    try {    
+        refreashTokens = refreashTokens.filter((token) => token !== refreashToken);
+        res.status(200).json("You are logged out successfully");
+    }
+    catch(err) {
+        return res.status(400).send({message: err});
+    }
 }
 
-module.exports = {login};
+module.exports = {login, logout};
