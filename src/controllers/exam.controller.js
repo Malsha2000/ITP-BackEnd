@@ -40,5 +40,84 @@ const getExams = async (req, res) => {
     }
 };
 
-module.exports = {addExam, getExams};
+const updateExam = async (req,res) => {
+    const examId = req.params.id;
+
+    try {
+        const exam = await Exam.findById(examId);
+        if(!exam) {
+            res.status(404).json("No Exam Found");
+        }
+
+        const {
+            examName,
+            description, 
+            subject, 
+            grade, 
+            teacherName, 
+            date, 
+            time, 
+            duration,
+        } = req.body;
+
+        const updatedExam = await Exam.findByIdAndUpdate(examId, { 
+            examName,
+            description, 
+            subject, 
+            grade, 
+            teacherName, 
+            date, 
+            time, 
+            duration
+        });
+
+        res.status(200).json(updatedExam);
+    }
+    catch (err) {
+        res.status(400).send({message: err});
+    }
+};
+
+const deleteExam = async (req,res) => {
+    const examId = req.params.id;
+
+    try {
+        const exam = await Exam.findById(examId);
+        if(!exam) {
+            res.status(404).json("Exam Not Found");
+        }
+
+        const deletedExam = await Exam.findByIdAndDelete(examId);
+        res.status(200).json(deletedExam);
+    }
+    catch (err) {
+        res.status(400).json(err.message);
+    }
+};
+
+const getOneExam = async (req,res) => {
+    try {
+        const exam = await Exam.findOne({ _id: req.params.id});
+
+        if(!exam) {
+            res.status(404).json("Exam Not Found");
+        }
+
+        res.status(200).json(exam);
+    }
+    catch (err) {
+        res.status(400).json(err.message);
+    }
+};
+
+
+
+
+module.exports = {
+    addExam, 
+    getExams,
+    updateExam,
+    deleteExam,
+    getOneExam,
+};
 
