@@ -84,7 +84,7 @@ const deleteTimetable = async (req,res) => {
         }
 
         const deletedTimetable = await Timetable.findByIdAndDelete(timetableId);
-        res.status(200).json("Timwtable Deleted");
+        res.status(200).json("Timetable Deleted");
     }
     catch(err) {
         res.status(400).json(err.message);
