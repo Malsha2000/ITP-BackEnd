@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const verifyToken = require("../verifyToken/verifyToken");
 const {
     addEvent,
     getEvent,
@@ -9,10 +10,10 @@ const {
 const Event = require("../model/EventModel");
 
 //define user routes
-router.post("/add", addEvent);
+router.post("/add", verifyToken, addEvent);
 router.get("/all", getEvent);
-router.put("/update/:id", updateEvent);
-router.delete("/delete/:id", deleteEvent);
+router.put("/update/:id", verifyToken, updateEvent);
+router.delete("/delete/:id", verifyToken, deleteEvent);
 router.get("/:id", getoneEvent);
 
 module.exports = router;
