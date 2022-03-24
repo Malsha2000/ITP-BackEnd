@@ -1,5 +1,4 @@
 const bcryptjs = require("bcryptjs");
-const { update } = require("../model/StudentAccountModel");
 const Student = require("../model/StudentAccountModel");
 const { registerValidation } = require("../validations/studentValidation");
 
