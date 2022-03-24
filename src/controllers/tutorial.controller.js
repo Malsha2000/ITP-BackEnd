@@ -85,7 +85,7 @@ const deletedTutorial = async (req, res) => {
         const tutorial = await Tutorial.findById(tutorialId);
 
         if(!tutorial) {
-            res.status(404).jason("Tutorial Not Found");
+            res.status(404).json("Tutorial Not Found");
         }
 
         const deletedTutorial = await Tutorial.findByIdAndDelete(tutorialId);
