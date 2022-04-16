@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const verifyToken = require("../verifyToken/verifyToken");
 const {
     addExam, 
     getExams, 
@@ -7,10 +8,10 @@ const {
     getOneExam
 } = require("../controllers/exam.controller");
 
-router.post("/add", addExam);
-router.get("/all", getExams);
-router.put("/update/:id", updateExam);
-router.delete("/delete/:id", deleteExam);
-router.get("/:id", getOneExam);
+router.post("/add", verifyToken, addExam);
+router.get("/all", verifyToken, getExams);
+router.put("/update/:id", verifyToken, updateExam);
+router.delete("/delete/:id", verifyToken, deleteExam);
+router.get("/:id", verifyToken, getOneExam);
 
 module.exports = router;

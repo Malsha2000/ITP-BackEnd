@@ -91,4 +91,22 @@ const deleteAdmin = async (req,res) => {
     }
     };
 
-module.exports = {addAdmin, getAdmins, updateAdmin, deleteAdmin};
+//Get admin details
+const getoneAdmin = async (req, res) => {
+     try {
+    const admin = await Admin.findOne({ _id: req.params.id });
+
+    if (!admin) {
+      res.status(404).json("Admin Not Found");
+    }
+    res.status(200).json(admin);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
+
+module.exports = {addAdmin, 
+                  getAdmins, 
+                  updateAdmin, 
+                  deleteAdmin,
+                  getoneAdmin,};

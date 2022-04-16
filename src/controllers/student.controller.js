@@ -61,7 +61,105 @@ const getStudents = async (req, res) => {
   }
 };
 
+const updateStudent = async (req, res) => {
+  const studentID = req.params.id;
+
+  try {
+    const student = await Student.findById(studentID);
+    if (!student) {
+      res.status(404).json("No Student Found");
+    }
+
+    const {
+      firstName,
+      lastName,
+      birthday,
+      NIC,
+      phoneNumber,
+      email,
+      school,
+      grade,
+      medium,
+      parentName,
+      parentPhoneNumber,
+      parentEmail,
+      studentGender,
+      parentAddress,
+      parentOccupation,
+      imageURL,
+      subject,
+      teacher,
+      OL_Year,
+      AL_Year,
+      username,
+      password,
+    } = req.body;
+
+    const updatedStudent = await Student.findByIdAndUpdate(studentID, {
+      firstName,
+      lastName,
+      birthday,
+      NIC,
+      phoneNumber,
+      email,
+      school,
+      grade,
+      medium,
+      parentName,
+      parentPhoneNumber,
+      parentEmail,
+      studentGender,
+      parentAddress,
+      parentOccupation,
+      imageURL,
+      subject,
+      teacher,
+      OL_Year,
+      AL_Year,
+      username,
+      password,
+    });
+
+    res.status(200).json(updatedStudent);
+  } catch (err) {
+    res.status(400).send({ message: err });
+  }
+};
+
+const deleteStudent = async (req, res) => {
+  const studentID = req.params.id;
+
+  try {
+    const student = await Student.findById(studentID);
+
+    if (!student) {
+      res.status(404).json("Student Not Found");
+    }
+
+    const deletedStudent = await Student.findByIdAndDelete(studentID);
+    res.status(200).json(deletedStudent);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
+
+const getOneStudent = async (req, res) => {
+  try {
+    const student = await Student.findOne({ _id: req.params.id });
+
+    if (!student) {
+      res.status(404).json("Student Not Found");
+    }
+    res.status(200).json(student);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
+
 module.exports = {
   addStudent,
   getStudents,
+  updateStudent,
+  deleteStudent,
+  getOneStudent,
 };

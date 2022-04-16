@@ -3,6 +3,9 @@ const { inventoryValidation } = require("../validations/inventoryValidation");
 
 //add inventory function
 const addInventory = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true"){
     
     //validate the inventory input fields
     const {error} = inventoryValidation(req.body);
@@ -36,17 +39,31 @@ const addInventory = async (req,res) => {
     }
 
 }
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
+};
 
 const getInventory = async (req, res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate == "true") {
     try {
       const inventory = await Inventory.find();
       res.send(inventory);
     } catch (error) {
       res.status(400).send({ message: error });
     }
-  };
+  }
+  else {
+    return res.status(403).json("You do not have permission to access this");
+}
+};
 
   const updateInventory = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true") {
 
     const inventoryId = req.params.id;
 
@@ -65,9 +82,17 @@ const getInventory = async (req, res) => {
     catch(err) {
         res.status(400).send({message: err});
     }
+}
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
 };
 
+
 const deleteInventory = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true") {
     const inventoryId = req.params.id;
 
     try {
@@ -83,9 +108,16 @@ const deleteInventory = async (req,res) => {
     catch(err) {
         res.status(400).json(err.message);
     }
+}
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
 };
 
 const getoneInventory = async (req, res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true") {
     try {
       const inventory = await Inventory.findOne({ _id: req.params.id });
   
@@ -96,7 +128,11 @@ const getoneInventory = async (req, res) => {
     } catch (err) {
       res.status(400).json(err.message);
     }
-  };
+  }
+  else {
+    return res.status(403).json("You do not have permission to access this");
+}
+};
 
 module.exports = {
     addInventory,
