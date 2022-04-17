@@ -14,6 +14,8 @@ const resultRoute = require("./src/routes/result");
 const tutorialRoute = require("./src/routes/tutorial");
 const HallRoute = require("./src/routes/Hall");
 const LoginRoute = require("./src/routes/login");
+const requestRoute = require("./src/routes/request");
+
 const app = express();
 dotenv.config();
 
@@ -48,7 +50,9 @@ app.use("/api/result", resultRoute);
 app.use("/api/tutorial",tutorialRoute);
 app.use("/api/hall", HallRoute);
 app.use("/api/login", LoginRoute);
+app.use("/api/request", requestRoute);
 
 app.listen(process.env.PORT, () =>
     console.log(`Server is up and running on PORT ${process.env.PORT}`)
 );
+
