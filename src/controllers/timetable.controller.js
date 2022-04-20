@@ -3,6 +3,9 @@ const { timetableValidation } = require("../validations/TimetableValidation");
 
 //add timetable function
 const addTimetable = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true"){
     
     //validate the timetable input fields
     const {error} = timetableValidation(req.body);
@@ -39,17 +42,32 @@ const addTimetable = async (req,res) => {
     }
 
 }
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
+};
 
 const getTimetable = async (req, res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate == "true") {
     try {
       const timetable = await Timetable.find();
       res.send(timetable);
     } catch (error) {
       res.status(400).send({ message: error });
     }
-  };
+  }
+  else {
+    return res.status(403).json("You do not have permission to access this");
+}
+};
+
 
   const updateTimetable = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true") {
 
     const timetableId = req.params.id;
 
@@ -71,9 +89,16 @@ const getTimetable = async (req, res) => {
     catch(err) {
         res.status(400).send({message: err});
     }
+}
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
 };
 
 const deleteTimetable = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true") {
     const timetableId = req.params.id;
 
     try {
@@ -84,14 +109,24 @@ const deleteTimetable = async (req,res) => {
         }
 
         const deletedTimetable = await Timetable.findByIdAndDelete(timetableId);
-        res.status(200).json("Timwtable Deleted");
+        res.status(200).json("Timetable Deleted");
     }
     catch(err) {
         res.status(400).json(err.message);
     }
+}
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
 };
 
+
 const getoneTimetable = async (req, res) => {
+    const validateTeacher = localStorage.getItem("isTeacher");
+    const validateStudent = localStorage.getItem("isStudent");
+    const validateAdmin = localStorage.getItem("isAdmin");
+
+    if(validateTeacher === "true" || validateStudent === "true" || validateAdmin === "true") {
     try {
       const timetable = await Timetable.findOne({ _id: req.params.id });
   
@@ -102,7 +137,12 @@ const getoneTimetable = async (req, res) => {
     } catch (err) {
       res.status(400).json(err.message);
     }
-  };
+  }
+  else {
+    return res.status(403).json("You do not have permission to access this");
+}
+};
+
   
 
 module.exports = {

@@ -6,5 +6,4 @@ router.post("/register", addTeacher);
 router.put("/update/:id", updateTeacher);
 router.delete("/delete/:id", deleteTeacher);
 
-
-module.exports = router
+module.exports = router;

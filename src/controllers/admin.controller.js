@@ -3,8 +3,11 @@ const Admin = require("../model/SystemAdminModel");
 const { registerValidation} = require("../validations/adminValidation");
 
 const addAdmin = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
 
     //validate the user input feilds
+    if(validate === "true"){
+        
     const {error} = registerValidation(req.body);
     if(error) {
         res.send({message:error['details'][0]['message']});
@@ -37,11 +40,17 @@ const addAdmin = async (req,res) => {
     }
     catch(error) {
         res.status(400).send({message:error});
+    }}
+    else {
+        return res.status(403).json("You do not have permission to access this");
     }
-    };
+};
     
 //Get all admins function
 const getAdmins = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate == "true") {
         try{
         const admins = await Admin.find();
         res.send(admins);
@@ -50,9 +59,16 @@ const getAdmins = async (req,res) => {
         res.status(400).send({message: error});
     }
     }
+    else {
+        return res.status(403).json("You do not have permission to access this");
+    }
+};
 
 //Update admin details
 const updateAdmin = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true") {
 
     const adminId = req.params.id;
 
@@ -69,11 +85,18 @@ const updateAdmin = async (req,res) => {
     }
     catch(err) {
         res.status(400).send({message: err});
+    }}
+    else {
+        return res.status(403).json("You do not have permission to access this");
     }
-    };
+};
 
 //Delete admin account
 const deleteAdmin = async (req,res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true") {
+
     const adminId = req.params.id;
 
     try {
@@ -88,7 +111,36 @@ const deleteAdmin = async (req,res) => {
     }
     catch(err) {
         res.status(400).json(err.message);
+    }}
+    else {
+        return res.status(403).json("You do not have permission to access this");
     }
-    };
+};
 
-module.exports = {addAdmin, getAdmins, updateAdmin, deleteAdmin};
+//Get admin details
+const getoneAdmin = async (req, res) => {
+    const validate = localStorage.getItem("isAdmin");
+
+    if(validate === "true") {
+
+     try {
+    const admin = await Admin.findOne({ _id: req.params.id });
+
+    if (!admin) {
+      res.status(404).json("Admin Not Found");
+    }
+    res.status(200).json(admin);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+}
+else {
+  return res.status(403).json("You do not have permission to access this");
+}
+};
+
+module.exports = {addAdmin, 
+                  getAdmins, 
+                  updateAdmin, 
+                  deleteAdmin,
+                  getoneAdmin,};

@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const verifyToken = require("../verifyToken/verifyToken");
 const { addTimetable,
         getTimetable,
         updateTimetable,
@@ -8,11 +9,11 @@ const { addTimetable,
 
 
 //define user routes
-router.get("/all", getTimetable);
-router.post("/add", addTimetable);
-router.put("/update/:id", updateTimetable);
-router.delete("/delete/:id", deleteTimetable);
-router.get("/:id", getoneTimetable);
+router.get("/all", verifyToken, getTimetable);
+router.post("/add", verifyToken, addTimetable);
+router.put("/update/:id", verifyToken, updateTimetable);
+router.delete("/delete/:id", verifyToken, deleteTimetable);
+router.get("/:id", verifyToken, getoneTimetable);
 
 
 module.exports = router;

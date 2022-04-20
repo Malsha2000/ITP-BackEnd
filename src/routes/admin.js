@@ -1,9 +1,15 @@
 const router = require('express').Router();
-const {addAdmin, getAdmins, updateAdmin, deleteAdmin} = require('../controllers/admin.controller');
+const verifyToken = require("../verifyToken/verifyToken");
+const { addAdmin, 
+        getAdmins, 
+        updateAdmin, 
+        deleteAdmin, 
+        getoneAdmin,} = require('../controllers/admin.controller');
 
-router.get("/all", getAdmins);
-router.post("/register", addAdmin);
-router.put("/update/:id", updateAdmin);
-router.delete("/delete/:id", deleteAdmin);
+router.get("/all", verifyToken, getAdmins);
+router.post("/register", verifyToken, addAdmin);
+router.put("/update/:id", verifyToken, updateAdmin);
+router.delete("/delete/:id", verifyToken, deleteAdmin);
+router.get("/:id", verifyToken, getoneAdmin);
 
 module.exports = router;
