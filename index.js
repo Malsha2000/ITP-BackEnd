@@ -35,7 +35,7 @@ mongoose
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.send("success");
+    res.send("Welcom to BrainTech");
     console.log(process.env.PORT);
 });
 
