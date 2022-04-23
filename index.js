@@ -52,7 +52,7 @@ app.use("/api/hall", HallRoute);
 app.use("/api/login", LoginRoute);
 app.use("/api/request", requestRoute);
 
-app.listen(process.env.PORT, () =>
+app.listen(process.env.PORT || 5000, () =>
     console.log(`Server is up and running on PORT ${process.env.PORT}`)
 );
 
