@@ -5,7 +5,6 @@ const registerValidation = (data) => {
         examName : Joi.string().required(),
         description : Joi.string().required(),
         subject : Joi.string().required(),
-        grade : Joi.string().required(),
         teacherName : Joi.string().required(),
         date : Joi.date().required(),
         time : Joi.string().required(),
