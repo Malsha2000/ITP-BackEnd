@@ -2,15 +2,17 @@ const mongoose = require('mongoose');
 
 const RequestSchema = new mongoose.Schema(
   {
+    teacherName: {
+      type: String,
+      required: true,
+    }, 
+    
     requestTitle: {
       type: String,
       required: true,
       },    
 
-      teacherName: {
-        type: String,
-        required: true,
-      },    
+         
 
       Date: {
         type: Date,
