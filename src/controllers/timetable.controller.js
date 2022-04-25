@@ -1,5 +1,5 @@
 const Timetable = require("../model/TimetableModels");
-const { timetableValidation } = require("../validations/TimetableValidation");
+const { timetableValidation } = require("../validations/timetableValidation");
 
 //add timetable function
 const addTimetable = async (req,res) => {

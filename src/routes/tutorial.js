@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const verifyToken = require("../verifyToken/verifyToken");
 const {
     addTutorial,
     getTutorial,
@@ -10,10 +11,10 @@ const Tutorial = require("../model/TutorialModels");
 
 
 //define user routes
-router.post("/add", addTutorial);
-router.get("/all", getTutorial);
-router.put("/update/:id", updateTutorial);
-router.delete("/delete/:id", deletedTutorial);
-router.get("/:id", getoneTutorial);
+router.post("/add", verifyToken, addTutorial);
+router.get("/all", verifyToken, getTutorial);
+router.put("/update/:id", verifyToken, updateTutorial);
+router.delete("/delete/:id", verifyToken, deletedTutorial);
+router.get("/:id", verifyToken, getoneTutorial);
 
 module.exports = router
