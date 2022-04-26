@@ -45,9 +45,7 @@ const getExams = async (req, res) => {
 
     if(validate == "true") {
         try {
-            const exams = await Exam.find();
-            console.log("student login");
-            console.log(localStorage.getItem("isStudent"));
+            const exams = await Exam.find({teacherName: localStorage.getItem("teacherName")});
             res.send(exams);
         } catch (error) {
             res.status(400).send({ message: error });
