@@ -4,6 +4,10 @@ const { registerValidation, loginValidation } = require("../validations/teacherV
 
 const addTeacher = async (req, res) => {
   //validate the user input feilds
+  const validateAdmin = localStorage.getItem("isAdmin");
+    
+
+    if(validateAdmin === "true"){
   const { error } = registerValidation(req.body);
   if (error) {
     res.send({ message: error["details"][0]["message"] });
@@ -42,46 +46,29 @@ const addTeacher = async (req, res) => {
   } catch (error) {
     res.status(400).send({ message: error });
   }
+}
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
 };
 
-//teacher login function
-const teacherLogin = async (req,res) => {
-  //validate the teacher input fields
-  const {error} = loginValidation(req.body);
-  if(error) {
-      res.send({message:error['details'][0]['message']});
-  }
-
-  //check if teacher exist
-  const teacherExist = await Teacher.findOne({username: req.body.username});
-  if(!teacherExist) {
-      return res.status(400).send({message: "Teacher does not exist"});
-  }
-  console.log(teacherExist);
-  //decrypt the password
-  const passwordValidation = await bcryptjs.compare(req.body.password, teacherExist.password);
-  if(!passwordValidation) {
-      return res.status(400).send({message: "Worng password"})
-  }
-  
-
-  //generate json web token
-  const token = jwt.sign({_id: Exist._id}, process.env.TOKEN_SECRET);
-  res.header("auth-token", token).send({'auth-token':token});
-
-}
-
 const getTeachers = async (req, res) => {
+  
   try {
     const teachers = await Teacher.find();
     res.send(teachers);
   } catch (error) {
     res.status(400).send({ message: error });
   }
+
 };
 
 //Update teacher account
 const updateTeacher = async (req, res) => {
+  const validateAdmin = localStorage.getItem("isAdmin");
+    const validateTeacher = localStorage.getItem("isTeacher");
+
+    if(validateAdmin === "true" || validateTeacher === "true") {
   const teacherId = req.params.id;
 
   try {
@@ -129,10 +116,17 @@ const updateTeacher = async (req, res) => {
   } catch (err) {
     res.status(400).send({ message: err });
   }
+}
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
 };
 
 //delete
 const deleteTeacher = async (req, res) => {
+  const validateAdmin = localStorage.getItem("isAdmin");
+  
+    if(validateAdmin === "true") {
   const teacherId = req.params.id;
 
   try {
@@ -147,12 +141,37 @@ const deleteTeacher = async (req, res) => {
   } catch (err) {
     res.status(400).json(err.message);
   }
+}
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
+};
+
+const getoneTeacher = async (req, res) => {
+  const validateAdmin = localStorage.getItem("isAdmin");
+    const validateTeacher = localStorage.getItem("isTeacher");
+
+    if(validateTeacher === "true" || validateAdmin === "true") {
+  try {
+    const teacher = await Teacher.findOne({ _id: req.params.id });
+
+    if (!teacher) {
+      res.status(404).json("Teacher Not Found");
+    }
+    res.status(200).json(request);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+}
+else {
+    return res.status(403).json("You do not have permission to access this");
+}
 };
 
 module.exports = {
   addTeacher,
   getTeachers,
-  //teacherLogin,
   updateTeacher,
   deleteTeacher,
+  getoneTeacher,
 };

@@ -1,38 +1,36 @@
 const mongoose = require('mongoose');
 
-const RequestSchema =  new mongoose.Schema(
+const RequestSchema = new mongoose.Schema(
   {
+    teacherName: {
+      type: String,
+      required: true,
+    }, 
+    
+    requestTitle: {
+      type: String,
+      required: true,
+      },    
 
-        requestTitle: {
-          type: String,
-          required: true,
-        },    
+         
 
-        teacherName: {
-            type: String,
-            required: true,
-          },    
+      Date: {
+        type: Date,
+        required: true,
+      },
 
-        Date: {
-          type: String,
-          required: true,
-        },
+      time: {
+        type: String,
+        required: true,
+      },
 
-        time: {
-          type: String,
-          required: true,
-        },
-
-        description: {
-          type: String,
-          required: true,
-          unique: true,
-        },
-
-       
+      description: {
+        type: String,
+        required: true,
+      },       
   },
   { timestamps: true },
 );
 
 
-module.exports = mongoose.model("Request", RequestSchema);
+module.exports = mongoose.model("TeacherRequest", RequestSchema);
