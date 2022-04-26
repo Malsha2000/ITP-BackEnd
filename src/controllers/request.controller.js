@@ -1,4 +1,4 @@
-const Request = require("../model/requestModel");
+const TeacherRequest = require("../model/requestModel");
 const { requestValidation } = require("../validations/requestValidation");
 
 
@@ -11,13 +11,13 @@ const addRequest = async (req, res) => {
     }
   
     //to check user already exist
-    const requestExist = await Request.findOne({ requestTitle: req.body.requestTitle });
+    const requestExist = await TeacherRequest.findOne({ requestTitle: req.body.requestTitle });
     if (requestExist) {
       return res.status(400).send({ message: "Requst already exist" });
     }
   
     //assign data to the model
-    const request = new Request({
+    const teacherRequest = new TeacherRequest({
         requestTitle: req.body.requestTitle,
         teacherName: req.body.teacherName,
         Date: req.body.Date,
@@ -27,7 +27,7 @@ const addRequest = async (req, res) => {
   
     try {
       //save the data in the database
-      const savedRequest = await request.save();
+      const savedRequest = await teacherRequest.save();
       res.send(savedRequest);
     } catch (error) {
       //error handling
@@ -37,7 +37,7 @@ const addRequest = async (req, res) => {
   
   const getRequest = async (req, res) => {
     try {
-      const request = await Request.find();
+      const request = await TeacherRequest.find();
       res.send(request);
     } catch (error) {
       res.status(400).send({ message: error });
@@ -48,7 +48,7 @@ const addRequest = async (req, res) => {
     const requestId = req.params.id;
   
     try {
-      const request = await Request.findById(requestId);
+      const request = await TeacherRequest.findById(requestId);
       if (!request) {
         res.status(404).json("No Request Found");
       }
@@ -61,7 +61,7 @@ const addRequest = async (req, res) => {
         description,
     
       } = req.body;
-      const updatedRequest = await Request.findByIdAndUpdate(requestId, {
+      const updatedRequest = await TeacherRequest.findByIdAndUpdate(requestId, {
         requestTitle,
         teacherName,
         Date,
@@ -79,14 +79,13 @@ const addRequest = async (req, res) => {
     const requestId = req.params.id;
   
     try {
-      const request = await Request.findById(requestId);
-  
+      const request = await TeacherRequest.findById(requestId);
       if (!request) {
         res.status(404).json("Request Not Found");
       }
   
-      const deletedRequst = await Request.findByIdAndDelete(requestId);
-      res.status(200).json(deletedRequst);
+      const deletedRequest = await TeacherRequest.findByIdAndDelete(requestId);
+      res.status(200).json(deletedRequest);
     } catch (err) {
       res.status(400).json(err.message);
     }
@@ -95,8 +94,7 @@ const addRequest = async (req, res) => {
   
   const getoneRequest = async (req, res) => {
     try {
-      const request = await Request.findOne({ _id: req.params.id });
-  
+      const request = await TeacherRequest.findOne({ _id: req.params.id });
       if (!request) {
         res.status(404).json("Request Not Found");
       }

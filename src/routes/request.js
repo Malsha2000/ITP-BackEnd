@@ -2,7 +2,7 @@ const router = require('express').Router();
 const {addRequest, getRequest, updateRequest, deleteRequest, getoneRequest} = require('../controllers/request.controller');
 
 router.get("/all", getRequest);
-router.post("/register", addRequest);
+router.post("/add", addRequest);
 router.put("/update/:id", updateRequest);
 router.delete("/delete/:id", deleteRequest);
 router.get("/:id", getoneRequest);
