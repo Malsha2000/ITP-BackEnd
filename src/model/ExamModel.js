@@ -20,7 +20,7 @@ const ExamSchema = new mongoose.Schema({
 
     grade: {
         type: String,
-        required: true,
+        required: false,
     },
 
     teacherName: {

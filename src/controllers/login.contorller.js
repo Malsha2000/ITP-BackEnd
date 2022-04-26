@@ -33,13 +33,20 @@ const login = async (req,res,next) => {
         }
         
         //generate json web token
-        const token = jwt.sign({_id: adminExist.id}, process.env.TOKEN_SECRET);
-        res.header("auth-token", token).send({'auth-token':token});
+        try{
+            const token = await jwt.sign({_id: adminExist.id}, process.env.TOKEN_SECRET);
+            res.header("authToken", token).send({'authToken':token});
+        }
+        catch(err) {
+            res.status(400).send({message: err});
+        }
 
     }
     
     else if(teacherExist) { //if user teacher
         localStorage.setItem("isTeacher", teacherExist.isTeacher);
+        localStorage.setItem("teacherName", teacherExist.firstName);
+        localStorage.setItem("subject", teacherExist.subject);
         localStorage.setItem("isAdmin", false);
         localStorage.setItem("isStudent", false);
         console.log("Teacher");
@@ -52,8 +59,13 @@ const login = async (req,res,next) => {
         }
 
         //generate json web token
-        const token = jwt.sign({_id: teacherExist.id}, process.env.TOKEN_SECRET);
-        res.header("auth-token", token).send({"auth-token":token});
+        try{
+            const token = await jwt.sign({_id: teacherExist.id}, process.env.TOKEN_SECRET);
+            res.header("authToken", token).send({"authToken":token});
+        }
+        catch(err) {
+            res.status(400).send({message: err});
+        }
 
     }
     else if(studentExist) { //if user student
@@ -70,11 +82,21 @@ const login = async (req,res,next) => {
         }
 
         //generate json web token
-        const token = jwt.sign({_id: studentExist.id}, process.env.TOKEN_SECRET);
-        res.header("auth-token", token).send({"auth-token":token});
+        try{
+            const token = await jwt.sign({_id: studentExist.id}, process.env.TOKEN_SECRET);
+            res.header("authToken", token).send({"authToken":token});
+        }
+        catch(err) {
+            res.status(400).send({message: err});
+        }
     }
     else {
-        return res.status(400).send({message: "User does not exist"});
+        try{
+            return res.status(400).send({message: "User does not exist"});
+        }
+        catch(err) {
+            return res.status(400).send({message: err});
+        }
     }
 };
 

@@ -80,7 +80,6 @@ const addRequest = async (req, res) => {
   
     try {
       const request = await TeacherRequest.findById(requestId);
-  
       if (!request) {
         res.status(404).json("Request Not Found");
       }
@@ -96,7 +95,6 @@ const addRequest = async (req, res) => {
   const getoneRequest = async (req, res) => {
     try {
       const request = await TeacherRequest.findOne({ _id: req.params.id });
-  
       if (!request) {
         res.status(404).json("Request Not Found");
       }
