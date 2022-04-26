@@ -18,7 +18,7 @@ const addStudent = async (req, res) => {
     console.log(req.body.data);
 
     // to check user already exist
-    const userExist = await Student.findOne({ email: req.body.email });
+    const userExist = await Student.findOne({ email: req.body.data.email });
     if (userExist) {
       return res.status(400).send({ message: "User Already Exist" });
     }
@@ -27,13 +27,13 @@ const addStudent = async (req, res) => {
 
     //hash the password
     const salt = await bcryptjs.genSalt(5);
-    const hashPassword = await bcryptjs.hash(req.body.password, salt);
+    const hashPassword = await bcryptjs.hash(req.body.data.password, salt);
 
     const student = new Student({
       firstName: req.body.data.firstName,
       lastName: req.body.data.lastName,
       birthday: req.body.data.birthday,
-      NIC: req.body.NIC,
+      NIC: req.body.data.NIC,
       phoneNumber: req.body.data.phoneNumber,
       email: req.body.data.email,
       school: req.body.data.school,
