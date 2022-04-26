@@ -5,10 +5,7 @@ const resultValidation = (data) => {
         examName: Joi.string().required(),
         studentName: Joi.string().required(),
         studentId: Joi.string().required(),
-        marks: Joi.number().required(),
-        subject: Joi.string().required(),
-        grade: Joi.string().required(),
-    
+        marks: Joi.number().required(),    
     });
 
     return schemaValidation.validate(data);

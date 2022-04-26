@@ -30,6 +30,10 @@ const ResultSchema = new mongoose.Schema({
 
         grade: {
             type: String,
+            required: false,
+        },
+        teacherName: {
+            type: String,
             required: true,
         },
     },
