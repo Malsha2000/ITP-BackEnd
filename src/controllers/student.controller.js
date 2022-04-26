@@ -10,10 +10,12 @@ const addStudent = async (req, res) => {
   if(validateStudent === "true" || validateAdmin === "true"){
 
     // validate user input fields
-    const { error } = registerValidation(req.body);
+    const { error } = registerValidation(req.body.data);
     if (error) {
       res.send({ message: error["details"][0]["message"] });
     }
+
+    console.log(req.body.data);
 
     // to check user already exist
     const userExist = await Student.findOne({ email: req.body.email });
@@ -21,40 +23,41 @@ const addStudent = async (req, res) => {
       return res.status(400).send({ message: "User Already Exist" });
     }
 
-    console.log("OK")
+    console.log("OK");
 
     //hash the password
     const salt = await bcryptjs.genSalt(5);
     const hashPassword = await bcryptjs.hash(req.body.password, salt);
 
     const student = new Student({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      birthday: req.body.birthday,
+      firstName: req.body.data.firstName,
+      lastName: req.body.data.lastName,
+      birthday: req.body.data.birthday,
       NIC: req.body.NIC,
-      phoneNumber: req.body.phoneNumber,
-      email: req.body.email,
-      school: req.body.school,
-      grade: req.body.grade,
-      medium: req.body.medium,
-      parentName: req.body.parentName,
-      parentPhoneNumber: req.body.parentPhoneNumber,
-      parentEmail: req.body.parentEmail,
-      studentGender: req.body.studentGender,
-      parentAddress: req.body.parentAddress,
-      parentOccupation: req.body.parentOccupation,
-      imageURL: req.body.imageURL,
-      subject: req.body.subject,
-      teacher: req.body.teacher,
-      OL_Year: req.body.OL_Year,
-      AL_Year: req.body.AL_Year,
-      username: req.body.username,
+      phoneNumber: req.body.data.phoneNumber,
+      email: req.body.data.email,
+      school: req.body.data.school,
+      grade: req.body.data.grade,
+      medium: req.body.data.medium,
+      parentName: req.body.data.parentName,
+      parentPhoneNumber: req.body.data.parentPhoneNumber,
+      parentEmail: req.body.data.parentEmail,
+      studentGender: req.body.data.studentGender,
+      parentAddress: req.body.data.parentAddress,
+      parentOccupation: req.body.data.parentOccupation,
+      imageURL: req.body.data.imageURL,
+      subject: req.body.data.subject,
+      teacher: req.body.data.teacher,
+      OL_Year: req.body.data.OL_Year,
+      AL_Year: req.body.data.AL_Year,
+      username: req.body.data.username,
       password: hashPassword,
     });
 
     console.log(student);
 
     try {
+      console.log("SUCCESS");
       const savedStudent = student.save();
       res.send(savedStudent);
     } catch (error) {
