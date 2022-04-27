@@ -5,33 +5,36 @@ const { requestValidation } = require("../validations/requestValidation");
 //user ragistration function
 const addRequest = async (req, res) => {
     //validate the user input fields
-    const { error } = requestValidation(req.body);
+    const { error } = requestValidation(req.body.data);
     if (error) {
       res.send({ message: error["details"][0]["message"] });
     }
   
     //to check user already exist
-    const requestExist = await TeacherRequest.findOne({ requestTitle: req.body.requestTitle });
+    const requestExist = await TeacherRequest.findOne({ requestTitle: req.body.data.requestTitle });
     if (requestExist) {
       return res.status(400).send({ message: "Requst already exist" });
     }
   
     //assign data to the model
+    console.log("ok");
     const teacherRequest = new TeacherRequest({
-        requestTitle: req.body.requestTitle,
-        teacherName: req.body.teacherName,
-        Date: req.body.Date,
-        time: req.body.time,
-        description: req.body.description,
+        requestTitle: req.body.data.requestTitle,
+        teacherName: req.body.data.teacherName,
+        Date: req.body.data.Date,
+        time: req.body.data.time,
+        description: req.body.data.description,
     });
-  
+    console.log("teacherRequest");
+    console.log(teacherRequest);
     try {
       //save the data in the database
-      const savedRequest = await teacherRequest.save();
-      res.send(savedRequest);
+      console.log("success");
+      const savedRequest =  teacherRequest.save();
+       return res.send(savedRequest);
     } catch (error) {
       //error handling
-      res.status(400).send({ message: error });
+       return res.status(400).send({ message: error });
     }
   };
   
