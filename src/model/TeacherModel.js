@@ -1,3 +1,4 @@
+const { date } = require('joi');
 const mongoose = require('mongoose');
 
 const TeacherSchema =  new mongoose.Schema(
@@ -10,6 +11,12 @@ const TeacherSchema =  new mongoose.Schema(
 
         lastName: {
           type: String,
+          required: true,
+        },
+
+        birthday: {
+
+          type : Date,
           required: true,
         },
 
