@@ -109,9 +109,7 @@ let refreashTokens = [];
 const logout = async (req,res) => {
     const refreashToken = req.body.token;
 
-    localStorage.removeItem("isAdmin");
-    localStorage.removeItem("isTeacher");
-    localStorage.removeItem("isStudent");
+    localStorage.clear();
 
     try {    
         refreashTokens = refreashTokens.filter((token) => token !== refreashToken);

@@ -69,13 +69,13 @@ const updateResult = async (req,res) => {
             }
             
             const {
-                examName,
-                studentName,
                 studentId,
+                studentName,
                 marks,
-                subject,
-                grade,
-            } = req.body;
+            } = req.body.data;
+
+            const subject = localStorage.getItem("subject");
+            const teacherName = localStorage.getItem("teacherName");
             
             const updatedResult = await Result.findByIdAndUpdate(resultId, {
                 examName,
@@ -83,7 +83,7 @@ const updateResult = async (req,res) => {
                 studentId,
                 marks,
                 subject,
-                grade,
+                teacherName,
             });
             
             res.status(200).json(updatedResult);
