@@ -61,9 +61,12 @@ const updateResult = async (req,res) => {
     if(validate === "true") {
 
         const resultId = req.params.id;
+        console.log(resultId);
         
         try {
+            console.log("ok");
             const result = await Result.findById(resultId);
+            console.log("great");
             if(!result) {
                 res.status(404).json("No Result Found");
             }
@@ -72,7 +75,10 @@ const updateResult = async (req,res) => {
                 studentId,
                 studentName,
                 marks,
+                examName,
             } = req.body.data;
+
+            console.log(studentId, studentName, marks, examName);
 
             const subject = localStorage.getItem("subject");
             const teacherName = localStorage.getItem("teacherName");
