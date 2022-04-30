@@ -70,6 +70,10 @@ const login = async (req,res,next) => {
     }
     else if(studentExist) { //if user student
         localStorage.setItem("isStudent", studentExist.isStudent);
+        localStorage.setItem("studentName", studentExist.firstName);
+        localStorage.setItem("studentId", studentExist.studentId);
+        localStorage.setItem("teacherName", studentExist.teacherName);
+        localStorage.setItem("subject", studentExist.subject);
         localStorage.setItem("isAdmin", false);
         localStorage.setItem("isTeacher", false);
         console.log("Student");
@@ -105,9 +109,7 @@ let refreashTokens = [];
 const logout = async (req,res) => {
     const refreashToken = req.body.token;
 
-    localStorage.removeItem("isAdmin");
-    localStorage.removeItem("isTeacher");
-    localStorage.removeItem("isStudent");
+    localStorage.clear();
 
     try {    
         refreashTokens = refreashTokens.filter((token) => token !== refreashToken);
