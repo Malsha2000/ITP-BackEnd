@@ -8,14 +8,16 @@ const addExam = async (req,res) => {
 
     if(validate === "true"){
         const {error} = registerValidation(req.body.data);
+        console.log({error});
         if (error) {
             return res.send({ message: error["details"][0]["message"] });
         }
-        console.log(req.body.data);
+        console.log("teacher be log", req.body.data);
         const examExist = await Exam.findOne({ examName: req.body.data.examName });
         if (examExist) {
             return res.status(400).send({ message: "Exam Already Exist" });
         }
+
         console.log("ok");
         const exam = new Exam({
             examName: req.body.data.examName,
