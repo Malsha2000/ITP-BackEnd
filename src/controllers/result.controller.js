@@ -43,10 +43,12 @@ const addResult = async (req,res) => {
 const getResults = async (req, res) => {
     const validate = localStorage.getItem("isTeacher");
     if(validate === "true") {
-
+        let examName = req.query.examName;
+        console.log("get results " + examName);
         try {
-            const results = await Result.find({teacherName: localStorage.getItem("teacherName")});
+            const results = await Result.find({teacherName: localStorage.getItem("teacherName"), examName: examName});
             res.send(results);
+            console.log(results);
         } catch (error) {
             res.status(400).send({ message: error });
         }
