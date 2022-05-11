@@ -35,7 +35,11 @@ const login = async (req,res,next) => {
         //generate json web token
         try{
             const token = await jwt.sign({_id: adminExist.id}, process.env.TOKEN_SECRET);
-            res.header("authToken", token).send({'authToken':token});
+            res.header("authToken", token).send({
+                'authToken':token,
+                'role': 'admin',
+                'roleData': adminExist
+            });
         }
         catch(err) {
             res.status(400).send({message: err});
@@ -61,7 +65,11 @@ const login = async (req,res,next) => {
         //generate json web token
         try{
             const token = await jwt.sign({_id: teacherExist.id}, process.env.TOKEN_SECRET);
-            res.header("authToken", token).send({"authToken":token});
+            res.header("authToken", token).send({
+                "authToken":token,
+                'role': 'teacher',
+                'roleData': teacherExist
+            });
         }
         catch(err) {
             res.status(400).send({message: err});
