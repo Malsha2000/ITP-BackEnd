@@ -15,7 +15,7 @@ const registerValidation = (data) => {
         medium: Joi.string().required(),
         experienceYear: Joi.number().required(),
         classType: Joi.string().required(),
-        imageUrl: Joi.string().required(),
+        //imageUrl: Joi.string().required(),
     });
 
     return SchemaValidation.validate(data);
