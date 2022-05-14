@@ -1,44 +1,48 @@
+const LocalStorage = require("node-localstorage").LocalStorage;
+localStorage = new LocalStorage('./scratch');
 const Tutorial = require("../model/TutorialModels");
 const { tutorialValidation } = require("../validations/tutorialValidation");
 
-
 //user tutorial function function
 const addTutorial = async (req,res) => {
-
     const validate = localStorage.getItem("isTeacher");
 
     if(validate === "true"){
 
         //validate the user input fields
-        const {error} = tutorialValidation(req.body);
+        const {error} = tutorialValidation(req.body.data);
         if(error){
-            res.send({message:error['details'][0]['message']});
+            return res.send({message:error['details'][0]['message']});
         }
 
         //to check user already exist
-        const tutorialExist = await Tutorial.findOne({tutorialName: req.body.tutorialName});
+        console.log(req.body.data);
+        const tutorialExist = await Tutorial.findOne({tutorialName: req.body.data.tutorialName});
         if(tutorialExist){
             return res.status(400).send({message: "Tutorial already exist"});
         }
 
         //assign data to the model
+        console.log("log");
         const tutorial = new Tutorial({
-            tutorialName: req.body.tutorialName,
-            subject: req.body.subject,
-            grade: req.body.subject,
-            teacherName: req.body.teacherName,
-            lessonName: req.body.lessonName,
-            link: req.body.link,
+            tutorialName: req.body.data.tutorialName,
+            subject: localStorage.getItem("subject"),
+            grade: req.body.data.subject,
+            teacherName: localStorage.getItem("teacherName"),
+            lessonName: req.body.data.lessonName,
+            link: req.body.data.link,
         });
+
+        console.log(tutorial);
 
         try {
             //save the data in the database
-            const saveTutorial = await tutorial.save();
-            res.send(savedTutorial);
+            console.log("success");
+            const saveTutorial = tutorial.save();
+            return res.send(savedTutorial);
         }
-
-        catch(error){ //error handling
-            res.status(400).send({message:error});
+        catch(err){ //error handling
+            return res.status(400).send({message:err});
         }
     }
     else {
