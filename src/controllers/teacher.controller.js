@@ -8,39 +8,44 @@ const addTeacher = async (req, res) => {
     
 
     if(validateAdmin === "true"){
-  const { error } = registerValidation(req.body.data);
+      console.log("validation Ok");
+     const { error } = registerValidation(req.body.data);
   if (error) {
     res.send({ message: error["details"][0]["message"] });
+    console.log("Msg error ok");
   }
-
+  console.log(req.body.data);
   //to check user already exist
-  const userExist = await Teacher.findOne({ email:req.body.data.email });
-  if (userExist) {
+  const teacherExist = await Teacher.findOne({ email: req.body.data.email });
+  if (teacherExist) {
     return res.status(400).send({ message: "User already exist" });
   }
-
-  //hash the password
-  const salt = await bcryptjs.genSalt(5);
-  const hashPassword = await bcryptjs.hash(req.body.data.password, salt);
+    
 
 
   console.log("ok");
   const teacher = new Teacher({
     firstName: req.body.data.firstName,
     lastName: req.body.data.lastName,
-    birthday: req.body.data.birthday,
     NIC: req.body.data.NIC,
-    username: req.body.data.username,
-    password: hashPassword,
-    address: req.body.data.address,
+    gender:req.body.data.gender,
     phoneNumber: req.body.data.phoneNumber,
     email: req.body.data.email,
-    higerQulification: req.body.data.higerQulification,
     subject: req.body.data.subject,
+    grade: req.body.data.grade,
     medium: req.body.data.medium,
-    experienceYear: req.body.data.experienceYear,
     classType: req.body.data.classType,
-    imageUrl: req.body.data.imageUrl,
+    experienceYear: req.body.data.experienceYear,
+    username: req.body.data.username,
+    password: req.body.data.hashPassword,
+    address: req.body.data.address,
+    higerQulification: req.body.data.higerQulification,
+    // birthday: req.body.data.birthday,
+    //imageUrl: req.body.data.imageUrl,
+    //medium: req.body.data.medium,
+    // experienceYear: req.body.data.experienceYear,
+    //classType: req.body.data.classType,
+    
   });
   console.log(teacher);
   try {
