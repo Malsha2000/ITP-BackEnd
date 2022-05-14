@@ -14,11 +14,11 @@ const TeacherSchema =  new mongoose.Schema(
           required: true,
         },
 
-        birthday: {
+        // birthday: {
 
-          type : Date,
-          required: true,
-        },
+        //   type : Date,
+        //   required: true,
+        // },
 
         NIC: {
           type: String,
@@ -36,10 +36,10 @@ const TeacherSchema =  new mongoose.Schema(
           required: true,
         },
         
-        address:{
-          type: String,
-          required: false,
-        },
+        // address:{
+        //   type: String,
+        //   required: false,
+        // },
 
         phoneNumber: {
           type: [String],
@@ -71,80 +71,80 @@ const TeacherSchema =  new mongoose.Schema(
             required: true,
         },
 
-        OL_result:{
-            year: {
-              type: String,
-              required : false,
-            },
+        // OL_result:{
+        //     year: {
+        //       type: String,
+        //       required : false,
+        //     },
 
-            Sinhala: {
-              type: String,
-              required : false,
-            },
+        //     Sinhala: {
+        //       type: String,
+        //       required : false,
+        //     },
 
-            Mathamatics: {
-              type:String,
-              required : false,
-            },
+        //     Mathamatics: {
+        //       type:String,
+        //       required : false,
+        //     },
 
-            Science: {
-              type:String,
-              required : false,
-            },
+        //     Science: {
+        //       type:String,
+        //       required : false,
+        //     },
 
-            English: {
-              type:String,
-              required : false,
-            },
+        //     English: {
+        //       type:String,
+        //       required : false,
+        //     },
 
-            History: {
-              type:String,
-              required : false,
-            },
+        //     History: {
+        //       type:String,
+        //       required : false,
+        //     },
 
-            Religion: {
-              type:String,
-              required : false,
-            },
+        //     Religion: {
+        //       type:String,
+        //       required : false,
+        //     },
 
-            Subject1: {
-              type:String,
-              required : false,
-            },
+        //     Subject1: {
+        //       type:String,
+        //       required : false,
+        //     },
 
-            Subject2: {
-              type:String,
-              required : false,
-            },
+        //     Subject2: {
+        //       type:String,
+        //       required : false,
+        //     },
 
-            Subject3: {
-              type:String,
-              required : false,
-            }, 
+        //     Subject3: {
+        //       type:String,
+        //       required : false,
+        //     }, 
         
-          },
+        //   },
 
-        AL_result:{
-          year: {
-              type: String,
-              required : false,
-            },
+        // AL_result:{
+        //   year: {
+        //       type: String,
+        //       required : false,
+        //     },
 
-            Subject1: {
-              type: String,
-              required : false,
-            },
+        //     Subject1: {
+        //       type: String,
+        //       required : false,
+        //     },
 
-            Subject2: {
-              type:String,
-              required : false,
-            },
+        //     Subject2: {
+        //       type:String,
+        //       required : false,
+        //     },
 
-            Subject3: {
-              type:String,
-              required : false,
-            },
-          },
+        //     Subject3: {
+        //       type:String,
+        //       required : false,
+        //     },
+        //   },
 
         classType:{
           type: String,
@@ -156,10 +156,10 @@ const TeacherSchema =  new mongoose.Schema(
           required: true,  
         },
     
-        feeExpectation:{
-          type: String,
-          required: false,    
-        },
+        // feeExpectation:{
+        //   type: String,
+        //   required: false,    
+        // },
 
         isTeacher:{
           type: Boolean,
