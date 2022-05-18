@@ -87,7 +87,7 @@ const updateTutorial = async(req, res) => {
                 teacherName,
                 lessonName,
                 link,
-            } = req.body;
+            } = req.body.data;
             const updateTutorial = await Tutorial.findByIdAndUpdate(tutorialId,{
                 tutorialName,
                 subject,
