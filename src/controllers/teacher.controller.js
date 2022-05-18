@@ -1,55 +1,64 @@
 const bcryptjs = require("bcryptjs");
 const Teacher = require("../model/TeacherModel");
-const { registerValidation, loginValidation } = require("../validations/teacherValidation");
+const { registerValidation} = require("../validations/teacherValidation");
 
 const addTeacher = async (req, res) => {
   //validate the user input feilds
   const validateAdmin = localStorage.getItem("isAdmin");
-    
 
-    if(validateAdmin === "true"){
-  const { error } = registerValidation(req.body);
-  if (error) {
-    res.send({ message: error["details"][0]["message"] });
-  }
-
+    if(validateAdmin === "true")
+    {
+        console.log("validation Ok");
+        const { error } = registerValidation(req.body.data);
+        if (error) {
+          res.send({ message: error["details"][0]["message"] });
+          console.log("Msg error ok");
+        }
+        console.log(req.body.data);
   //to check user already exist
-  const userExist = await Teacher.findOne({ email: req.body.email });
-  if (userExist) {
-    return res.status(400).send({ message: "User already exist" });
-  }
+        const teacherExist = await Teacher.findOne({ email: req.body.data.email });
+        if (teacherExist) {
+          return res.status(400).send({ message: "User already exist" });
+        }
+        const salt = await bcryptjs.genSalt(5);
 
-  //hash the password
-  const salt = await bcryptjs.genSalt(5);
-  const hashPassword = await bcryptjs.hash(req.body.password, salt);
+        const hashPassword = await bcryptjs.hash(req.body.data.password, salt);
 
-  const teacher = new Teacher({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    NIC: req.body.NIC,
-    username: req.body.username,
-    password: hashPassword,
-    address: req.body.address,
-    phoneNumber: req.body.phoneNumber,
-    email: req.body.email,
-    higerQulification: req.body.higerQulification,
-    subject: req.body.subject,
-    medium: req.body.medium,
-    experienceYear: req.body.experienceYear,
-    classType: req.body.classType,
-    imageUrl: req.body.imageUrl,
-  });
-
-  try {
-    const savedTeacher = teacher.save();
-    res.send(savedTeacher);
-  } catch (error) {
-    res.status(400).send({ message: error });
-  }
-}
-else {
-    return res.status(403).json("You do not have permission to access this");
-}
+        console.log("ok");
+        const teachers = new Teacher({
+          firstName: req.body.data.firstName,
+          lastName: req.body.data.lastName,
+          NIC: req.body.data.NIC,
+          gender:req.body.data.gender,
+          phoneNumber: req.body.data.phoneNumber,
+          email: req.body.data.email,
+          subject: req.body.data.subject,
+          grade: req.body.data.grade,
+          medium: req.body.data.medium,
+          classType: req.body.data.classType,
+          experienceYear: req.body.data.experienceYear,
+          username: req.body.data.username,
+          password: hashPassword,
+          higerQulification: req.body.data.higerQulification,
+          // birthday: req.body.data.birthday,
+          //imageUrl: req.body.data.imageUrl,
+          //medium: req.body.data.medium,
+          // experienceYear: req.body.data.experienceYear,
+          //classType: req.body.data.classType,
+          
+        });
+           console.log(teachers);
+              try {
+                console.log("success");
+                const savedTeacher = teachers.save();
+                return res.send(savedTeacher);
+              } catch (err) {
+                return res.status(400).send({ message: err });
+              }
+     }
+      // else {
+      //       return res.status(403).json("You do not have permission to access this");
+      //       }
 };
 
 const getTeachers = async (req, res) => {
