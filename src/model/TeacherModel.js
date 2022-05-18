@@ -153,7 +153,7 @@ const TeacherSchema =  new mongoose.Schema(
 
         imageUrl:{
           type: String,
-          required: true,  
+          required: false,  
         },
     
         // feeExpectation:{
