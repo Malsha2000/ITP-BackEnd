@@ -72,12 +72,13 @@ const updateExam = async (req,res) => {
             const {
                 examName,
                 description, 
-                subject, 
-                teacherName, 
                 date, 
                 time, 
                 duration,
-            } = req.body;
+            } = req.body.data;
+
+            const subject = localStorage.getItem("subject");
+            const teacherName = localStorage.getItem("teacherName");
 
             const updatedExam = await Exam.findByIdAndUpdate(examId, { 
                 examName,
