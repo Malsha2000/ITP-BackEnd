@@ -51,6 +51,7 @@ const addRequest = async (req, res) => {
     const requestId = req.params.id;
   
     try {
+      console.log("ok");
       const request = await TeacherRequest.findById(requestId);
       if (!request) {
         res.status(404).json("No Request Found");
@@ -63,7 +64,7 @@ const addRequest = async (req, res) => {
         time,
         description,
     
-      } = req.body;
+      } = req.body.data;
       const updatedRequest = await TeacherRequest.findByIdAndUpdate(requestId, {
         requestTitle,
         teacherName,
