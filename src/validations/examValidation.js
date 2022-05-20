@@ -7,6 +7,7 @@ const registerValidation = (data) => {
         date : Joi.date().required(),
         time : Joi.string().required(),
         duration : Joi.string().required(),
+        role: Joi.string().required(),
     });
 
     return SchemaValidation.validate(data);
