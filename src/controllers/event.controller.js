@@ -7,27 +7,27 @@ const addEvent = async (req, res) => {
 
   if (validate === "true") {
     //validate the user input fields
-    const { error } = eventValidation(req.body);
+    const { error } = eventValidation(req.body.data);
     if (error) {
       res.send({ message: error["details"][0]["message"] });
     }
 
     //to check user already exist
-    const eventExist = await Event.findOne({ eventName: req.body.eventName });
+    const eventExist = await Event.findOne({ eventName: req.body.data.eventName });
     if (eventExist) {
       return res.status(400).send({ message: "Event already exist" });
     }
 
     //assign data to the model
     const event = new Event({
-      eventName: req.body.eventName,
-      eventDate: req.body.eventDate,
-      tags: req.body.tags,
-      description: req.body.description,
-      time: req.body.time,
-      Venue: req.body.Venue,
-      imageUrl: req.body.imageUrl,
-      registrationLink: req.body.registrationLink,
+      eventName: req.body.data.eventName,
+      eventDate: req.body.data.eventDate,
+      tags: req.body.data.tags,
+      description: req.body.data.description,
+      time: req.body.data.time,
+      Venue: req.body.data.Venue,
+      imageUrl: req.body.data.imageUrl,
+      registrationLink: req.body.data.registrationLink,
     });
 
     try {
@@ -73,7 +73,7 @@ const updateEvent = async (req, res) => {
         Venue,
         imageUrl,
         registrationLink,
-      } = req.body;
+      } = req.body.data;
       const updatedEvent = await Event.findByIdAndUpdate(eventId, {
         eventName,
         eventDate,
