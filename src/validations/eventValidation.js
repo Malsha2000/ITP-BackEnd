@@ -9,8 +9,6 @@ const eventValidation = (data) => {
     description: joi.string().required(),
     time: joi.string().required(),
     Venue: joi.string().required(),
-    imageUrl: joi.string().required(),
-    registrationLink: joi.string().required(),
   });
 
   return schemaValidation.validate(data);

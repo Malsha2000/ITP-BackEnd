@@ -96,7 +96,11 @@ const login = async (req,res,next) => {
         //generate json web token
         try{
             const token = await jwt.sign({_id: studentExist.id}, process.env.TOKEN_SECRET);
-            res.header("authToken", token).send({"authToken":token});
+            res.header("authToken", token).send({
+                "authToken":token,
+                "role": "student",
+                "roleData": studentExist
+            });
         }
         catch(err) {
             res.status(400).send({message: err});
@@ -115,7 +119,7 @@ const login = async (req,res,next) => {
 let refreashTokens = [];
 
 const logout = async (req,res) => {
-    const refreashToken = req.body.token;
+    const refreashToken = req.params.authToken
 
     localStorage.clear();
 

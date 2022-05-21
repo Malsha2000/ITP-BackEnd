@@ -35,17 +35,6 @@ const EventSchema = new mongoose.Schema({
         required: true,
     },
 
-
-    imageUrl: {
-        type: String,
-        required: true,
-    },
-
-    registrationLink: {
-        type: String,
-        required: true,
-    },
-
 },
 {timestamps: true}
 );
