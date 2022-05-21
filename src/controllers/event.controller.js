@@ -26,8 +26,6 @@ const addEvent = async (req, res) => {
       description: req.body.data.description,
       time: req.body.data.time,
       Venue: req.body.data.Venue,
-      imageUrl: req.body.data.imageUrl,
-      registrationLink: req.body.data.registrationLink,
     });
 
     try {
@@ -71,8 +69,6 @@ const updateEvent = async (req, res) => {
         description,
         time,
         Venue,
-        imageUrl,
-        registrationLink,
       } = req.body.data;
       const updatedEvent = await Event.findByIdAndUpdate(eventId, {
         eventName,
@@ -81,8 +77,6 @@ const updateEvent = async (req, res) => {
         description,
         time,
         Venue,
-        imageUrl,
-        registrationLink,
       });
 
       res.status(200).json(updatedEvent);
