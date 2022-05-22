@@ -42,7 +42,8 @@ const addResult = async (req,res) => {
 
 const getResults = async (req, res) => {
     const validate = localStorage.getItem("isTeacher");
-    if(validate === "true") {
+    const validateStudent = localStorage.getItem("isStudent");
+    if(validate === "true" || validateStudent === "true") {
         let examName = req.query.examName;
         console.log("get results " + examName);
         try {
