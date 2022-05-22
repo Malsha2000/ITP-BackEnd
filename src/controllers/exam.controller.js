@@ -8,14 +8,16 @@ const addExam = async (req,res) => {
 
     if(validate === "true"){
         const {error} = registerValidation(req.body.data);
+        console.log({error});
         if (error) {
             return res.send({ message: error["details"][0]["message"] });
         }
-        console.log(req.body.data);
+        console.log("teacher be log", req.body.data);
         const examExist = await Exam.findOne({ examName: req.body.data.examName });
         if (examExist) {
             return res.status(400).send({ message: "Exam Already Exist" });
         }
+
         console.log("ok");
         const exam = new Exam({
             examName: req.body.data.examName,
@@ -41,13 +43,11 @@ const addExam = async (req,res) => {
 };
 
 const getExams = async (req, res) => {
-    const validate = localStorage.getItem("isTeacher");
+    const validate = localStorage.getItem("isTeacher") || localStorage.getItem("isStudent");
 
-    if(validate == "true") {
+    if(validate === "true") {
         try {
-            const exams = await Exam.find();
-            console.log("student login");
-            console.log(localStorage.getItem("isStudent"));
+            const exams = await Exam.find({teacherName: localStorage.getItem("teacherName")});
             res.send(exams);
         } catch (error) {
             res.status(400).send({ message: error });
@@ -72,12 +72,13 @@ const updateExam = async (req,res) => {
             const {
                 examName,
                 description, 
-                subject, 
-                teacherName, 
                 date, 
                 time, 
                 duration,
-            } = req.body;
+            } = req.body.data;
+
+            const subject = localStorage.getItem("subject");
+            const teacherName = localStorage.getItem("teacherName");
 
             const updatedExam = await Exam.findByIdAndUpdate(examId, { 
                 examName,

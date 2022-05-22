@@ -35,7 +35,11 @@ const login = async (req,res,next) => {
         //generate json web token
         try{
             const token = await jwt.sign({_id: adminExist.id}, process.env.TOKEN_SECRET);
-            res.header("authToken", token).send({'authToken':token});
+            res.header("authToken", token).send({
+                'authToken':token,
+                'role': 'admin',
+                'roleData': adminExist
+            });
         }
         catch(err) {
             res.status(400).send({message: err});
@@ -61,7 +65,11 @@ const login = async (req,res,next) => {
         //generate json web token
         try{
             const token = await jwt.sign({_id: teacherExist.id}, process.env.TOKEN_SECRET);
-            res.header("authToken", token).send({"authToken":token});
+            res.header("authToken", token).send({
+                "authToken":token,
+                'role': 'teacher',
+                'roleData': teacherExist
+            });
         }
         catch(err) {
             res.status(400).send({message: err});
@@ -70,6 +78,10 @@ const login = async (req,res,next) => {
     }
     else if(studentExist) { //if user student
         localStorage.setItem("isStudent", studentExist.isStudent);
+        localStorage.setItem("studentName", studentExist.firstName);
+        localStorage.setItem("studentId", studentExist.studentId);
+        localStorage.setItem("teacherName", studentExist.teacherName);
+        localStorage.setItem("subject", studentExist.subject);
         localStorage.setItem("isAdmin", false);
         localStorage.setItem("isTeacher", false);
         console.log("Student");
@@ -84,7 +96,11 @@ const login = async (req,res,next) => {
         //generate json web token
         try{
             const token = await jwt.sign({_id: studentExist.id}, process.env.TOKEN_SECRET);
-            res.header("authToken", token).send({"authToken":token});
+            res.header("authToken", token).send({
+                "authToken":token,
+                "role": "student",
+                "roleData": studentExist
+            });
         }
         catch(err) {
             res.status(400).send({message: err});
@@ -103,11 +119,9 @@ const login = async (req,res,next) => {
 let refreashTokens = [];
 
 const logout = async (req,res) => {
-    const refreashToken = req.body.token;
+    const refreashToken = req.params.authToken
 
-    localStorage.removeItem("isAdmin");
-    localStorage.removeItem("isTeacher");
-    localStorage.removeItem("isStudent");
+    localStorage.clear();
 
     try {    
         refreashTokens = refreashTokens.filter((token) => token !== refreashToken);

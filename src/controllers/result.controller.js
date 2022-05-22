@@ -7,31 +7,32 @@ const addResult = async (req,res) => {
     const validate = localStorage.getItem("isTeacher");
     if(validate === "true"){
 
-        const { error } = resultValidation(req.body);
+        const { error } = resultValidation(req.body.data);
         if (error) {
-            res.send({ message: error["details"][0]["message"] });
+            return res.send({ message: error["details"][0]["message"] });
         }
         
-        // to check redult already exist
-        const resultExist = await Result.findOne({ studentId: req.body.studentId, examName: req.body.examName });
+        // to check result already exist
+        const resultExist = await Result.findOne({ studentId: req.body.data.studentId, examName: req.body.data.examName });
         if (resultExist) {
             return res.status(400).send({ message: "Result Already Exist" });
         }
-        
+        console.log(req.body.data);
         const result = new Result({
-            examName: req.body.examName,
-            studentName: req.body.studentName,
-            studentId: req.body.studentId,
-            marks: req.body.marks,
-            subject: req.body.subject,
-            grade: req.body.grade,
+            examName: req.body.data.examName,
+            studentName: req.body.data.studentName,
+            studentId: req.body.data.studentId,
+            marks: req.body.data.marks,
+            subject: localStorage.getItem("subject"),
+            teacherName: localStorage.getItem("teacherName"),
         });
-        
+        console.log(result);
         try {
+            console.log("success");
             const savedResult = result.save();
-            res.send(savedResult);
-        } catch (error) {
-            res.status(400).send({ message: error });
+            return res.send(savedResult);
+        } catch (err) {
+            return res.status(400).send({ message: err });
         }
     }
     else {
@@ -42,10 +43,12 @@ const addResult = async (req,res) => {
 const getResults = async (req, res) => {
     const validate = localStorage.getItem("isTeacher");
     if(validate === "true") {
-
+        let examName = req.query.examName;
+        console.log("get results " + examName);
         try {
-            const results = await Result.find();
+            const results = await Result.find({teacherName: localStorage.getItem("teacherName"), examName: examName});
             res.send(results);
+            console.log(results);
         } catch (error) {
             res.status(400).send({ message: error });
         }
@@ -60,21 +63,27 @@ const updateResult = async (req,res) => {
     if(validate === "true") {
 
         const resultId = req.params.id;
+        console.log(resultId);
         
         try {
+            console.log("ok");
             const result = await Result.findById(resultId);
+            console.log("great");
             if(!result) {
                 res.status(404).json("No Result Found");
             }
             
             const {
-                examName,
-                studentName,
                 studentId,
+                studentName,
                 marks,
-                subject,
-                grade,
-            } = req.body;
+                examName,
+            } = req.body.data;
+
+            console.log(studentId, studentName, marks, examName);
+
+            const subject = localStorage.getItem("subject");
+            const teacherName = localStorage.getItem("teacherName");
             
             const updatedResult = await Result.findByIdAndUpdate(resultId, {
                 examName,
@@ -82,7 +91,7 @@ const updateResult = async (req,res) => {
                 studentId,
                 marks,
                 subject,
-                grade,
+                teacherName,
             });
             
             res.status(200).json(updatedResult);
