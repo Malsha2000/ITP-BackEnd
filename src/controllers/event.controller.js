@@ -1,18 +1,18 @@
 const Event = require("../model/EventModel");
 const { eventValidation } = require("../validations/eventValidation");
 
-//user ragistration function
+//add event function
 const addEvent = async (req, res) => {
   const validate = localStorage.getItem("isAdmin");
 
   if (validate === "true") {
-    //validate the user input fields
+    //validate the event input fields
     const { error } = eventValidation(req.body.data);
     if (error) {
       res.send({ message: error["details"][0]["message"] });
     }
 
-    //to check user already exist
+    //to check event already exist
     const eventExist = await Event.findOne({ eventName: req.body.data.eventName });
     if (eventExist) {
       return res.status(400).send({ message: "Event already exist" });
