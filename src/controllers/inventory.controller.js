@@ -1,3 +1,5 @@
+const LocalStorage = require("node-localstorage").LocalStorage;
+localStorage = new LocalStorage('./scratch');
 const Inventory = require("../model/InventoryModel");
 const { inventoryValidation } = require("../validations/inventoryValidation");
 
@@ -8,34 +10,36 @@ const addInventory = async (req,res) => {
     if(validate === "true"){
     
     //validate the inventory input fields
-    const {error} = inventoryValidation(req.body);
+    const {error} = inventoryValidation(req.body.data);
     if(error) {
-        res.send({message:error['details'][0]['message']});
+        return res.send({message:error['details'][0]['message']});
     }
+    console.log(req.body.data);
 
     //to check inventory already exist
-    const inventoryExist = await Inventory.findOne({itemName: req.body.itemName});
+    const inventoryExist = await Inventory.findOne({itemName: req.body.data.itemName});
     if(inventoryExist) {
         return res.status(400).send({message: "Item already exist"});
     }
-
+    console.log("ok");
     //assign data to the model
     const inventory = new Inventory({
-        itemName: req.body.itemName,
-        boughtDate: req.body.boughtDate,
-        imageUrl: req.body.imageUrl,
-        quantity: req.body.quantity,
-        price: req.body.price,
+        itemName: req.body.data.itemName,
+        boughtDate: req.body.data.boughtDate,
+        quantity: req.body.data.quantity,
+        price: req.body.data.price,
         
     });
-    
+    console.log(inventory);
     try {
         //save the data in the database
-        const savedInventory = await inventory.save();
-        res.send(savedInventory);
+        console.log("success");
+        const savedInventory = inventory.save();
+        return res.send(savedInventory);
     }
     catch(error) { //error handling
         res.status(400).send({message:error});
+        console.log(error);
     }
 
 }
@@ -74,8 +78,8 @@ const getInventory = async (req, res) => {
         }
 
         const {itemName, boughtDate
-            , imageUrl,quantity, price} = req.body;
-        const updatedInventory = await Inventory.findByIdAndUpdate(inventoryId, {itemName, boughtDate, imageUrl, quantity, price});
+            ,quantity, price} = req.body.data;
+        const updatedInventory = await Inventory.findByIdAndUpdate(inventoryId, {itemName, boughtDate, quantity, price});
 
         res.status(200).json(updatedInventory);
     }
