@@ -7,7 +7,7 @@ const inventoryValidation = (data) => {
 
         itemName: Joi.string().required(),
         boughtDate: Joi.string().required(),
-        imageUrl: Joi.string().required(),
+        
         quantity: Joi.number().required(),
         price: Joi.number().required(),
 
