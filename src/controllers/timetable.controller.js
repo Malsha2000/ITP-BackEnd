@@ -1,3 +1,5 @@
+const LocalStorage = require("node-localstorage").LocalStorage;
+localStorage = new LocalStorage('./scratch');
 const Timetable = require("../model/TimetableModels");
 const { timetableValidation } = require("../validations/timetableValidation");
 
@@ -8,10 +10,11 @@ const addTimetable = async (req,res) => {
     if(validate === "true"){
     
     //validate the timetable input fields
-    const {error} = timetableValidation(req.body);
+    const {error} = timetableValidation(req.body.data);
     if(error) {
-        res.send({message:error['details'][0]['message']});
+       return res.send({message:error['details'][0]['message']});
     }
+    console.log(req.body.data);
 
     //to check timetable already exist
     const timetableExist = await Timetable.findOne({subject: req.body.subject});
@@ -21,24 +24,27 @@ const addTimetable = async (req,res) => {
 
     //assign data to the model
     const timetable = new Timetable({
-        subject: req.body.subject,
-        grade: req.body.grade,
-        teacherName: req.body.teacherName,
-        hallNumber: req.body.hallNumber,
-        date: req.body.date,
-        time: req.body.time,
-        classType: req.body.classType,
-        medium: req.body.medium,
-        floorNumber: req.body.floorNumber,
+        subject: req.body.data.subject,
+        grade: req.body.data.grade,
+        teacherName: req.body.data.teacherName,
+        hallNumber: req.body.data.hallNumber,
+        date: req.body.data.date,
+        time: req.body.data.time,
+        classType: req.body.data.classType,
+        medium: req.body.data.medium,
+        floorNumber: req.body.data.floorNumber,
     });
-    
+    console.log(timetable);
+
     try {
         //save the data in the database
-        const savedTimetable = await timetable.save();
-        res.send(savedTimetable);
+        console.log("success");
+        const savedTimetable = timetable.save();
+        return res.send(savedTimetable);
     }
     catch(error) { //error handling
         res.status(400).send({message:error});
+        console.log(error);
     }
 
 }
@@ -79,7 +85,7 @@ const getTimetable = async (req, res) => {
 
         const {subject, grade
             , teacherName
-            ,hallNumber, date, time, classType, medium, floorNumber} = req.body;
+            ,hallNumber, date, time, classType, medium, floorNumber} = req.body.data;
         const updatedTimetable = await Timetable.findByIdAndUpdate(timetableId, {subject, grade
             , teacherName
             ,hallNumber, date, time, classType, medium, floorNumber});
