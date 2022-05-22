@@ -43,9 +43,10 @@ const addExam = async (req,res) => {
 };
 
 const getExams = async (req, res) => {
-    const validate = localStorage.getItem("isTeacher") || localStorage.getItem("isStudent");
+    const validate = localStorage.getItem("isTeacher");
+    const studentValidate = localStorage.getItem("isStudent")
 
-    if(validate === "true") {
+    if(validate === "true" || studentValidate === "true") {
         try {
             const exams = await Exam.find({teacherName: localStorage.getItem("teacherName")});
             res.send(exams);
