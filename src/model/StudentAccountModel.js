@@ -79,7 +79,7 @@ const StudentSchema = new mongoose.Schema(
 
         imageURL: {
             type: String,
-            required: true,
+            required: false,
         },
 
         subject: {
