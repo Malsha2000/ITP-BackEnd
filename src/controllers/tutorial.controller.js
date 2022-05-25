@@ -52,8 +52,9 @@ const addTutorial = async (req,res) => {
 
 const getTutorial = async (req, res) => {
     const validate = localStorage.getItem("isTeacher");
+    const validateStudent = localStorage.getItem("isStudent");
 
-    if(validate == "true") {
+    if(validate == "true" || validateStudent == "true") {
         try {
             const tutorial = await Tutorial.find();
             res.send(tutorial);
